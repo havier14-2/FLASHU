@@ -1,0 +1,38 @@
+.register-body {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 20px 0;
+}
+.register-container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    max-width: 600px;
+    color: #333;
+}
+.register-title {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #2c3e50;
+}
+.form-label {
+    font-weight: 600;
+    color: #2c3e50;
+}
+.btn-custom {
+    border-radius: 10px;
+    font-weight: 600;
+}
+#errores {
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    color: red;
+}

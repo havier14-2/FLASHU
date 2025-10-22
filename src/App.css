@@ -1,0 +1,71 @@
+/* --- Estilos para Tablas --- */
+.table {
+    border-color: var(--color-borde);
+}
+
+.table thead {
+    background-color: var(--color-fondo);
+    font-weight: 600;
+}
+
+/* --- Estilos para Formularios y Tarjetas --- */
+.card {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-control, .form-select {
+    border-radius: 0.5rem;
+    border-color: var(--color-borde);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--color-primario);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* --- Estilos para Botones --- */
+.btn {
+    border-radius: 0.5rem;
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+    box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+/* ======================================= */
+/* == ARREGLO FINAL PARA ÍCONOS BLANCOS == */
+/* ======================================= */
+
+/*
+  Regla general y poderosa que le da un color visible
+  a CUALQUIER ícono de Bootstrap en la aplicación.
+*/
+[class^="bi-"]::before,
+[class*=" bi-"]::before {
+  /* Usamos un color gris oscuro para los íconos por defecto */
+  color: var(--color-texto-secundario) !important;
+}
+
+/* Regla específica para el botón de hamburguesa,
+  para asegurarnos de que se vea bien.
+*/
+.sidebar-toggle {
+  color: var(--color-texto) !important;
+}
+
+/* Reglas para los íconos de acciones cuando pasas el mouse por encima,
+  para que cambien al color primario.
+*/
+.action-buttons a:hover > i,
+.action-buttons button:hover > i {
+  color: var(--color-primario) !important;
+}

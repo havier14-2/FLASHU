@@ -1,0 +1,30 @@
+:root {
+  /* Nueva Paleta de Colores Elegante */
+  --color-primario: #2c5282; /* Un azul más sobrio */
+  --color-primario-hover: #eef2f7;
+  --color-fondo: #f7fafc;
+  --color-superficie: #ffffff;
+  --color-texto: #2d3748;
+  --color-texto-secundario: #718096;
+  --color-borde: #e2e8f0;
+
+  /* Tipografía */
+  font-family: "Poppins", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+main.container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
