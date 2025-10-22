@@ -12,12 +12,10 @@ import java.util.Optional;
 @Service
 public class UsuarioServicesImpl implements UsuarioServices {
 
-    // 1. Declaramos las dependencias como finales y privadas
     private final UsuarioRepositories usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // 2. Usamos el constructor para la inyección de dependencias
-   
+    @Autowired
     public UsuarioServicesImpl(UsuarioRepositories usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
@@ -29,7 +27,6 @@ public class UsuarioServicesImpl implements UsuarioServices {
 
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
-            // Comparamos la contraseña en texto plano con la encriptada
             if (passwordEncoder.matches(contraseña, usuario.getContrasena()) && "super-admin".equals(usuario.getRol())) {
                 return Optional.of(usuario);
             }
@@ -49,7 +46,6 @@ public class UsuarioServicesImpl implements UsuarioServices {
 
     @Override
     public Usuario createUsuario(Usuario usuario) {
-        // Encriptamos la contraseña antes de guardarla
         usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
         return usuarioRepository.save(usuario);
     }
@@ -62,7 +58,7 @@ public class UsuarioServicesImpl implements UsuarioServices {
         usuario.setEmail(usuarioDetails.getEmail());
         usuario.setRol(usuarioDetails.getRol());
         usuario.setEstado(usuarioDetails.getEstado());
-        // Por seguridad, no actualizamos la contraseña en un método de update general
+        // No actualizamos la contraseña en un método de update general
         return usuarioRepository.save(usuario);
     }
 
