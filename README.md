@@ -46,10 +46,10 @@ Este sistema provee una interfaz de administrador segura y responsive para reali
 ---
 ## 🔑 Credenciales de Prueba
 
-Para acceder al panel de administración, utiliza las siguientes credenciales:
+Para acceder al panel de administración, utiliza las credenciales que funcionaron en la última prueba (o las que hayas definido en tu `data.sql` más reciente). Por ejemplo:
 
--   **Email:** `profevivi@flashu.cl`
--   **Contraseña:** `profevivi1`
+-   **Email:** `admin@flashu.cl`
+-   **Contraseña:** `admin123`
 
 ---
 ## 📚 Documentación de la API (Swagger)
