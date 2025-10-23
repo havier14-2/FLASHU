@@ -29,7 +29,7 @@ Este sistema provee una interfaz de administrador segura y responsive para reali
 ### **Backend (Spring Boot)**
 1.  Clona el repositorio: `git clone https://github.com/tu-usuario/flashu-fullstack-app.git`
 2.  Navega a la rama del backend: `git checkout backend`
-3.  Configura tu base de datos MySQL en `src/main/resources/application.properties`.
+3.  Configura tu base de datos MySQL en `src/main/resources/application.properties` y ejecuta el script `data.sql` que se encuentra en la rama `main`.
 4.  El proyecto está configurado para ejecutarse con Maven. Se construirán las dependencias automáticamente.
 
 ### **Frontend (React)**
@@ -46,10 +46,10 @@ Este sistema provee una interfaz de administrador segura y responsive para reali
 ---
 ## 🔑 Credenciales de Prueba
 
-Para acceder al panel de administración, utiliza las credenciales que funcionaron en la última prueba (o las que hayas definido en tu `data.sql` más reciente). Por ejemplo:
+Para acceder al panel de administración, utiliza las siguientes credenciales:
 
--   **Email:** `admin@flashu.cl`
--   **Contraseña:** `admin123`
+-   **Email:** `profevivi@flashu.cl`
+-   **Contraseña:** `ProfeVivi123!`
 
 ---
 ## 📚 Documentación de la API (Swagger)
