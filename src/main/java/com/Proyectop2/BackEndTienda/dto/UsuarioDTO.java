@@ -20,9 +20,13 @@ public class UsuarioDTO {
 
     @NotBlank(message = "El rol no puede estar vacío")
     private String rol;
-
-    // Esta validación se aplicará solo al crear, no al actualizar
+    
     @Size(min = 10, message = "La contraseña debe tener al menos 10 caracteres")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[!@#$%^&*]).*$", message = "La contraseña debe contener al menos un número y un carácter especial")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[^A-Za-z0-9]).*$", message = "La contraseña debe contener al menos un número y un carácter especial")
     private String contrasena;
+
+    // --- CAMPOS AÑADIDOS ---
+    private String region;
+    private String comuna;
+    // -----------------------
 }

@@ -34,6 +34,11 @@ public class Usuario {
     @Column(nullable = false)
     private String estado = "activo";
 
+    // --- CAMPOS AÑADIDOS ---
+    private String region;
+    private String comuna;
+    // -----------------------
+
     @CreationTimestamp
     @Column(name = "fecha_creacion", nullable = false, updatable = false)
     private LocalDateTime fechaCreacion;

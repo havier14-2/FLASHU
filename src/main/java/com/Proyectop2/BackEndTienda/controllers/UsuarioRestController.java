@@ -1,13 +1,13 @@
 package com.Proyectop2.BackEndTienda.controllers;
 
-import com.Proyectop2.BackEndTienda.dto.UsuarioDTO; // <-- Importar DTO
+import com.Proyectop2.BackEndTienda.dto.UsuarioDTO;
 import com.Proyectop2.BackEndTienda.entities.Usuario;
 import com.Proyectop2.BackEndTienda.services.UsuarioServices;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content; // <-- Importar Content
-import io.swagger.v3.oas.annotations.media.Schema; // <-- Importar Schema
-import io.swagger.v3.oas.annotations.responses.ApiResponse; // <-- Importar ApiResponse
-import io.swagger.v3.oas.annotations.responses.ApiResponses; // <-- Importar ApiResponses
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +31,20 @@ public class UsuarioRestController {
         return ResponseEntity.ok(usuarioService.getAllUsuarios());
     }
 
+    // --- ESTE ES EL MÉTODO QUE FALTABA ---
+    @Operation(summary = "Obtener un usuario por su ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Usuario encontrado", content = @Content(schema = @Schema(implementation = Usuario.class))),
+        @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content)
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
+        return usuarioService.getUsuarioById(id)
+                .map(ResponseEntity::ok) // Si lo encuentra, devuelve 200 OK con el usuario
+                .orElse(ResponseEntity.notFound().build()); // Si no, devuelve 404 Not Found
+    }
+    // ------------------------------------
+
     @Operation(summary = "Crear un nuevo usuario")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Usuario creado exitosamente", content = @Content(schema = @Schema(implementation = Usuario.class))),
@@ -44,7 +58,9 @@ public class UsuarioRestController {
         usuario.setEmail(usuarioDTO.getEmail());
         usuario.setContrasena(usuarioDTO.getContrasena());
         usuario.setRol(usuarioDTO.getRol());
-        usuario.setEstado("activo"); // Estado por defecto
+        usuario.setEstado("activo");
+        usuario.setRegion(usuarioDTO.getRegion());
+        usuario.setComuna(usuarioDTO.getComuna());
         return ResponseEntity.ok(usuarioService.createUsuario(usuario));
     }
 
@@ -56,12 +72,14 @@ public class UsuarioRestController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioDTO usuarioDTO) {
-        // Mapeo de DTO a Entidad (solo campos actualizables)
+        // Mapeo de DTO a Entidad
         Usuario usuarioDetails = new Usuario();
         usuarioDetails.setNombre(usuarioDTO.getNombre());
         usuarioDetails.setEmail(usuarioDTO.getEmail());
         usuarioDetails.setRol(usuarioDTO.getRol());
-        // La contraseña solo se pasa si no es nula/vacía en el DTO
+        usuarioDetails.setRegion(usuarioDTO.getRegion());
+        usuarioDetails.setComuna(usuarioDTO.getComuna());
+        
         if (usuarioDTO.getContrasena() != null && !usuarioDTO.getContrasena().isEmpty()) {
             usuarioDetails.setContrasena(usuarioDTO.getContrasena());
         }
