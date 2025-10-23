@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './LoginPage.css';
 
 export function LoginPage() {
-    const navigate = useNavigate();
     const { login } = useAuth();
-    const [email, setEmail] = useState('admin@flashu.cl'); // Pre-llenado para facilitar pruebas
-    const [contrasena, setContrasena] = useState('admin123'); // Pre-llenado para facilitar pruebas
+    const [email, setEmail] = useState(''); // Estado inicial vacío
+    const [contrasena, setContrasena] = useState(''); // Estado inicial vacío
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (event) => {
+        // Esta línea es para verificar si la función se está llamando
+        console.log('Botón presionado, iniciando handleSubmit...');
+        
         event.preventDefault();
         setError('');
         setLoading(true);
@@ -36,7 +37,7 @@ export function LoginPage() {
                             type="email"
                             className="form-control"
                             id="email"
-                            placeholder="usuario@ejemplo.com"
+                            placeholder="superadmin@flashu.cl"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             disabled={loading}

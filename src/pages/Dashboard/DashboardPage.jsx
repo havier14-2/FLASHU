@@ -7,24 +7,23 @@ export function DashboardPage() {
     const [stats, setStats] = useState({ productCount: 0, userCount: 0 });
     const [lowStockProducts, setLowStockProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                // Hacemos las dos llamadas a la API al mismo tiempo
-                const [productsPage, usersData] = await Promise.all([
-                    getProducts(), // Pide la primera página de productos
-                    getUsers()     // Pide todos los usuarios
+                const [productsPage, usersData, lowStockPage] = await Promise.all([
+                    getProducts(0, 1), // Pedimos solo 1 para obtener el total de elementos
+                    getUsers(),
+                    getProducts(0, 5, '', null, 5) // Pedimos productos con stock < 5
                 ]);
                 
-                // Leemos el número total de elementos del objeto de paginación
                 setStats({
                     productCount: productsPage.totalElements,
-                    userCount: usersData.length, // getUsers devuelve un array simple por ahora
+                    userCount: usersData.length,
                 });
                 
-                // Filtramos los productos de la primera página para las alertas
-                setLowStockProducts(productsPage.content.filter(p => p.activo && p.stock < 5));
+                setLowStockProducts(lowStockPage.content);
 
             } catch (error) {
                 toast.error("No se pudieron cargar los datos del dashboard.");
@@ -40,12 +39,17 @@ export function DashboardPage() {
     if (loading) {
         return <p>Cargando datos del dashboard...</p>;
     }
+    
+    if (error) {
+        return <div className="alert alert-danger">{error}</div>;
+    }
 
     return (
         <div>
             <h2>Panel Administrativo</h2>
             <hr className="mb-4" />
 
+            {/* --- SECCIÓN DE TARJETAS (AÑADIDA DE NUEVO) --- */}
             <h4>Estadísticas Básicas</h4>
             <div className="row g-4">
                 <div className="col-md-6">
@@ -63,6 +67,7 @@ export function DashboardPage() {
                     </div>
                 </div>
             </div>
+            {/* --- FIN DE LA SECCIÓN DE TARJETAS --- */}
 
             <h4 className="mt-5">Alertas de Stock Crítico (menos de 5 unidades)</h4>
             {lowStockProducts.length > 0 ? (

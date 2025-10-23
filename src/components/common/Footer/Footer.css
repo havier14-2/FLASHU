@@ -1,0 +1,9 @@
+.footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--color-superficie);
+    border-top: 1px solid var(--color-borde);
+    color: var(--color-texto-secundario);
+    font-style: italic;
+    flex-shrink: 0; /* Evita que el footer se encoja */
+}

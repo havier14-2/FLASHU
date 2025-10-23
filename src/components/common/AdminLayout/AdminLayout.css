@@ -158,3 +158,85 @@
     display: block; /* Visible en móvil */
   }
 }
+.footer {
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: auto; /* Empuja el footer hacia abajo */
+    background-color: var(--color-superficie);
+    border-top: 1px solid var(--color-borde);
+    color: var(--color-texto-secundario);
+    font-style: italic;
+}
+:root {
+  --sidebar-width: 260px;
+  --header-height: 70px;
+  --color-primario-hover: #e9f2ff;
+  --color-texto-secundario: #6c757d;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --transition-speed: 0.3s;
+}
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-fondo);
+}
+
+/* --- Sidebar (Menú Lateral) --- */
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--color-superficie);
+  border-right: 1px solid var(--color-borde);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: margin-left var(--transition-speed) ease-in-out;
+}
+
+/* ... (el resto de los estilos del sidebar quedan igual) ... */
+
+/* --- Contenido Principal --- */
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.main-header {
+  height: var(--header-height);
+  background-color: var(--color-superficie);
+  border-bottom: 1px solid var(--color-borde);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  flex-shrink: 0;
+}
+
+/* ... (estilos de sidebar-toggle y header-user quedan igual) ... */
+
+.content-area {
+  padding: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  flex-grow: 1; /* <-- ESTA ES LA LÍNEA AÑADIDA */
+}
+
+/* --- Estilos para el Footer --- */
+.footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--color-superficie);
+    border-top: 1px solid var(--color-borde);
+    color: var(--color-texto-secundario);
+    font-style: italic;
+    flex-shrink: 0; /* Evita que el footer se encoja */
+}
+
+/* --- Estilos Responsivos --- */
+@media (max-width: 992px) {
+  /* ... (estilos responsive quedan igual) ... */
+}

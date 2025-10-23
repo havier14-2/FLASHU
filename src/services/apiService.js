@@ -1,6 +1,5 @@
 const API_BASE_URL = 'http://localhost:8080/api';
 
-// Función auxiliar para manejar las respuestas de la API
 const handleResponse = async (response) => {
     if (!response.ok) {
         const errorData = await response.text();
@@ -23,13 +22,17 @@ export const login = (credentials) => {
 };
 
 // --- PRODUCTOS ---
-export const getProducts = (page = 0, size = 5, nombre = '', categoriaId = null) => {
+export const getProducts = (page = 0, size = 5, nombre = '', categoriaId = null, stockMenorA = null) => {
     const params = new URLSearchParams({ page, size, nombre });
     if (categoriaId) {
         params.append('categoriaId', categoriaId);
     }
+    if (stockMenorA !== null) { // <-- LÓGICA AÑADIDA
+        params.append('stockMenorA', stockMenorA);
+    }
     return fetch(`${API_BASE_URL}/productos?${params.toString()}`, { cache: 'no-cache' }).then(handleResponse);
 };
+
 export const getProductById = (id) => fetch(`${API_BASE_URL}/productos/${id}`, { cache: 'no-cache' }).then(handleResponse);
 
 export const createProduct = (productData, imageFile) => {
@@ -79,6 +82,10 @@ export const getCategories = () => fetch(`${API_BASE_URL}/categorias`, { cache: 
 
 // --- USUARIOS ---
 export const getUsers = () => fetch(`${API_BASE_URL}/usuarios`, { cache: 'no-cache' }).then(handleResponse);
+
+export const getUserById = (id) => {
+    return fetch(`${API_BASE_URL}/usuarios/${id}`, { cache: 'no-cache' }).then(handleResponse);
+};
 
 export const createUser = (userData) => {
     return fetch(`${API_BASE_URL}/usuarios`, {

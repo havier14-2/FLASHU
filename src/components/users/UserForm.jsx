@@ -1,56 +1,71 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { createUser } from '../../services/apiService';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createUser, getUserById, updateUser } from '../../services/apiService';
+import toast from 'react-hot-toast';
 
 export function UserForm() {
+    const { id } = useParams();
+    const isEditing = !!id;
     const navigate = useNavigate();
-    const [user, setUser] = useState({ nombre: '', email: '', contrasena: '' });
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm();
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setUser(prev => ({ ...prev, [name]: value }));
+    useEffect(() => {
+        if (isEditing) {
+            toast.promise(
+                getUserById(id).then(user => {
+                    setValue('nombre', user.nombre);
+                    setValue('email', user.email);
+                    setValue('rol', user.rol);
+                }),
+                { loading: 'Cargando usuario...', success: 'Datos cargados', error: 'No se pudo cargar el usuario' }
+            );
+        }
+    }, [id, isEditing, setValue]);
+
+    const onSubmit = async (data) => {
+        if (isEditing && !data.contrasena) {
+            delete data.contrasena;
+        }
+
+        const promise = isEditing ? updateUser(id, data) : createUser(data);
+
+        try {
+            await toast.promise(promise, {
+                loading: 'Guardando usuario...',
+                success: `Usuario ${isEditing ? 'actualizado' : 'creado'} con éxito`,
+                error: (err) => `Error: ${err.message}`
+            });
+            navigate('/users');
+        } catch (error) { /* El toast ya maneja el error */ }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError('');
-        try {
-            await createUser(user);
-            alert('Usuario creado con éxito');
-            navigate('/users');
-        } catch (err) {
-            setError(err.message || 'Error al crear el usuario.');
-        } finally {
-            setLoading(false);
+    // --- SECCIÓN CORREGIDA ---
+    const passwordValidation = {
+        required: { value: !isEditing, message: 'La contraseña es obligatoria' },
+        minLength: { value: 10, message: 'La contraseña debe tener al menos 10 caracteres' },
+        pattern: {
+            // Este nuevo patrón busca cualquier caracter que NO sea letra o número
+            value: /^(?=.*[0-9])(?=.*[^A-Za-z0-9]).*$/,
+            message: "Debe contener al menos un número y un carácter especial"
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form-container">
-            <div className="form-header"><h3>Crear Nuevo Usuario</h3></div>
+        <form onSubmit={handleSubmit(onSubmit)} className="form-container">
+            <div className="form-header"><h3>{isEditing ? 'Editar' : 'Crear'} Usuario</h3></div>
             <div className="form-body">
-                <div className="form-group">
-                    <label htmlFor="nombre">Nombre</label>
-                    <input type="text" name="nombre" value={user.nombre} onChange={handleChange} className="form-control" required />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input type="email" name="email" value={user.email} onChange={handleChange} className="form-control" required />
-                </div>
+                {/* ... (campos nombre, email, rol sin cambios) ... */}
                 <div className="form-group">
                     <label htmlFor="contrasena">Contraseña</label>
-                    <input type="password" name="contrasena" value={user.contrasena} onChange={handleChange} className="form-control" required />
+                    <input type="password" {...register('contrasena', isEditing ? {} : passwordValidation)} className={`form-control ${errors.contrasena ? 'is-invalid' : ''}`} />
+                    {isEditing && <small className="form-text text-muted">Dejar en blanco para no cambiar la contraseña.</small>}
+                    {errors.contrasena && <div className="invalid-feedback">{errors.contrasena.message}</div>}
                 </div>
-                {error && <div className="alert alert-danger mt-3">{error}</div>}
             </div>
             <div className="form-actions">
-                <button type="button" onClick={() => navigate('/users')} className="btn btn-secondary" disabled={loading}>Cancelar</button>
-                <button type="submit" className="btn btn-primary" disabled={loading}>
-                    {loading ? 'Creando...' : 'Crear Usuario'}
-                </button>
+                <button type="button" onClick={() => navigate('/users')} className="btn btn-secondary" disabled={isSubmitting}>Cancelar</button>
+                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Guardar Usuario</button>
             </div>
         </form>
     );

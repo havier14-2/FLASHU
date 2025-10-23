@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Navigate, Outlet, NavLink } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
+import { Footer } from '../Footer/Footer'; // <-- LÍNEA CORREGIDA (CON LLAVES)
 import './AdminLayout.css';
 
 export function AdminLayout() {
@@ -48,11 +49,13 @@ export function AdminLayout() {
                     <button className="sidebar-toggle" onClick={toggleSidebar}>
                         <i className="bi bi-list"></i>
                     </button>
-                    <span className="header-user">Hola, {user.name || 'Admin'}</span>
+                    <span className="header-user">Hola, {user.nombre || 'Admin'}</span>
                 </header>
                 <main className="content-area">
                     <Outlet />
                 </main>
+                
+                <Footer />
             </div>
         </div>
     );
