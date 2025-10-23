@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useChileanRegions } from '../../hooks/UseChileanRegions';
+import { useChileanRegions } from '../../hooks/useChileanRegions';
 import './SignupPage.css'; // Importamos estilos
 
 // Reutiliza las constantes de validación

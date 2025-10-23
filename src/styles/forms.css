@@ -85,13 +85,18 @@
     border-bottom-right-radius: 0.75rem;
 }
 
-/* Regla responsive para móviles */
+.form-grid {
+  display: grid;
+  /* Dos columnas: la principal ocupa 2/3 y la lateral 1/3 del espacio */
+  grid-template-columns: 2fr 1fr; 
+  gap: 2rem;
+}
+
+/* --- REGLA RESPONSIVE --- */
+/* Cuando la pantalla sea de 768px o menos */
 @media (max-width: 768px) {
-    .form-grid {
-        /* Cambiamos a 1 sola columna en pantallas pequeñas */
-        grid-template-columns: 1fr;
-    }
-    .form-body {
-        padding: 1rem;
-    }
+  .form-grid {
+    /* La grilla pasa a tener 1 sola columna */
+    grid-template-columns: 1fr;
+  }
 }

@@ -37,7 +37,6 @@
 .custom-table tbody tr:hover { background-color: var(--color-primario-hover); }
 .custom-table tbody tr:last-child td { border-bottom: none; }
 
-
 /* ================================================= */
 /* === VERSIÓN FINAL Y DEFINITIVA DEL RESPONSIVE === */
 /* ================================================= */
@@ -61,7 +60,8 @@
     .custom-table td {
         padding: 0.75rem 1rem;
         border-bottom: 1px solid var(--color-borde);
-        word-break: break-word; /* Permite que el texto largo se divida */
+        /* Esta propiedad permite que el texto largo se divida */
+        word-break: break-word; 
     }
     
     .custom-table td:last-child {
@@ -78,7 +78,7 @@
         color: var(--color-texto-secundario);
         margin-bottom: 0.25rem;
     }
-
+    
     /* Celda de acciones */
     .custom-table td[data-label="Acciones"] {
         padding-top: 1rem;
