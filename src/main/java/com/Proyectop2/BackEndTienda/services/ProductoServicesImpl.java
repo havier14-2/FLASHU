@@ -3,9 +3,9 @@ package com.Proyectop2.BackEndTienda.services;
 import com.Proyectop2.BackEndTienda.entities.Producto;
 import com.Proyectop2.BackEndTienda.repositories.ProductoRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
@@ -26,8 +26,13 @@ public class ProductoServicesImpl implements ProductoServices {
     }
 
     @Override
+    public Page<Producto> listarTodas(String nombre, Long categoriaId, Integer stockMenorA, Pageable pageable) {
+        return productoRepositories.findWithFiltersAndPagination(nombre, categoriaId, stockMenorA, pageable);
+    }
+
+    @Override
     public List<Producto> listarTodas() {
-        return productoRepositories.findAll();
+        return productoRepositories.findAllWithCategoria();
     }
 
     @Override
@@ -55,18 +60,16 @@ public class ProductoServicesImpl implements ProductoServices {
         producto.setActivo(false);
         return productoRepositories.save(producto);
     }
-    @Override
-    public Producto guardar(Producto producto) {
-        return productoRepositories.save(producto);
-    }
+
     @Override
     public Producto activar(Long id) {
         Producto producto = obtenerId(id);
         producto.setActivo(true);
         return productoRepositories.save(producto);
     }
+
     @Override
-    public Page<Producto> listarTodas(String nombre, Long categoriaId, Pageable pageable) {
-        return productoRepositories.findWithFiltersAndPagination(nombre, categoriaId, pageable);
+    public Producto guardar(Producto producto) {
+        return productoRepositories.save(producto);
     }
 }

@@ -32,16 +32,17 @@ public class ProductoRestControllers {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Operation(summary = "Obtener lista paginada de productos", description = "Devuelve una página de productos, con opción de filtrar por nombre y/o ID de categoría.")
+    @Operation(summary = "Obtener lista paginada de productos", description = "...")
     @GetMapping
     public ResponseEntity<Page<Producto>> listarProductos(
-            @Parameter(description = "Texto para buscar en el nombre del producto") @RequestParam(defaultValue = "") String nombre,
-            @Parameter(description = "ID de la categoría para filtrar los productos") @RequestParam(required = false) Long categoriaId,
-            @Parameter(description = "Número de página a obtener (empieza en 0)") @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "Tamaño de la página") @RequestParam(defaultValue = "5") int size) {
+            @RequestParam(defaultValue = "") String nombre,
+            @RequestParam(required = false) Long categoriaId,
+            @RequestParam(required = false) Integer stockMenorA, // <-- PARÁMETRO AÑADIDO
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
         
         Pageable pageable = PageRequest.of(page, size);
-        Page<Producto> productos = productoServices.listarTodas(nombre, categoriaId, pageable);
+        Page<Producto> productos = productoServices.listarTodas(nombre, categoriaId, stockMenorA, pageable);
         return ResponseEntity.ok(productos);
     }
 
