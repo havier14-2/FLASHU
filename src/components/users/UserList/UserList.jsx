@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export function UserList({ users, onToggleStatus, onDelete }) {
+export function UserList({ users, regiones, onToggleStatus, onDelete }) {
     const [searchTerm, setSearchTerm] = useState('');
 
     const filteredUsers = useMemo(() => {
@@ -11,6 +11,12 @@ export function UserList({ users, onToggleStatus, onDelete }) {
             user.email.toLowerCase().includes(searchTerm.toLowerCase())
         );
     }, [users, searchTerm]);
+    
+    const getRegionName = (regionId) => {
+        if (!regiones || regiones.length === 0 || !regionId) return regionId || '-';
+        const region = regiones.find(r => r.id == regionId);
+        return region ? region.nombre : regionId;
+    };
 
     return (
         <div className="table-container">
@@ -30,6 +36,8 @@ export function UserList({ users, onToggleStatus, onDelete }) {
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Rol</th>
+                        <th>Región</th>
+                        <th>Comuna</th>
                         <th>Estado</th>
                         <th style={{ width: '150px' }}>Acciones</th>
                     </tr>
@@ -37,16 +45,21 @@ export function UserList({ users, onToggleStatus, onDelete }) {
                 <tbody>
                     {filteredUsers.length > 0 ? filteredUsers.map(user => (
                         <tr key={user.id} style={{ opacity: user.estado === 'activo' ? 1 : 0.6 }}>
-                            <td>{user.id}</td>
-                            <td>{user.nombre}</td>
-                            <td>{user.email}</td>
-                            <td>{user.rol}</td>
-                            <td>
+                            <td data-label="ID">{user.id}</td>
+                            <td data-label="Nombre">{user.nombre}</td>
+                            <td data-label="Email">{user.email}</td>
+                            <td data-label="Rol">{user.rol}</td>
+                            <td data-label="Región">{getRegionName(user.region)}</td>
+                            <td data-label="Comuna">{user.comuna || '-'}</td>
+                            <td data-label="Estado">
                                 <span className={`badge ${user.estado === 'activo' ? 'bg-success' : 'bg-secondary'}`}>
                                     {user.estado}
                                 </span>
                             </td>
-                            <td className="action-buttons">
+                            <td data-label="Acciones" className="action-buttons">
+                                <Link to={`/users/edit/${user.id}`} title="Editar">
+                                    <i className="bi bi-pencil-fill"></i>
+                                </Link>
                                 {user.estado === 'activo' ? (
                                     <button onClick={() => onToggleStatus(user)} title="Desactivar">
                                         <i className="bi bi-toggle-on" style={{color: 'green'}}></i>
@@ -62,7 +75,7 @@ export function UserList({ users, onToggleStatus, onDelete }) {
                             </td>
                         </tr>
                     )) : (
-                        <tr><td colSpan="6" className="text-center p-4">No se encontraron usuarios.</td></tr>
+                        <tr><td colSpan="8" className="text-center p-4">No se encontraron usuarios.</td></tr>
                     )}
                 </tbody>
             </table>

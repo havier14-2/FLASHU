@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
-
-const API_BASE = "https://apis.digital.gob.cl/dpa";
+import { useState, useEffect, useCallback } from 'react';
+import { getRegiones, getComunas } from '../services/apiService'; // <-- Usamos nuestro servicio
 
 export function useChileanRegions() {
     const [regiones, setRegiones] = useState([]);
@@ -11,12 +10,10 @@ export function useChileanRegions() {
     useEffect(() => {
         const fetchRegiones = async () => {
             try {
-                const response = await fetch(`${API_BASE}/regiones`);
-                if (!response.ok) throw new Error('Error al cargar regiones');
-                const data = await response.json();
+                const data = await getRegiones();
                 setRegiones(data);
             } catch (error) {
-                console.error(error);
+                console.error("Error al cargar regiones desde nuestra API:", error);
             } finally {
                 setLoadingRegions(false);
             }
@@ -24,24 +21,22 @@ export function useChileanRegions() {
         fetchRegiones();
     }, []);
 
-    const fetchComunas = async (regionCode) => {
-        if (!regionCode || regionCode === "0") {
+    const fetchComunas = useCallback(async (regionId) => {
+        if (!regionId || regionId === "") {
             setComunas([]);
             return;
         }
         setLoadingComunas(true);
         try {
-            const response = await fetch(`${API_BASE}/regiones/${regionCode}/comunas`);
-            if (!response.ok) throw new Error('Error al cargar comunas');
-            const data = await response.json();
+            const data = await getComunas(regionId);
             setComunas(data);
         } catch (error) {
-            console.error(error);
+            console.error("Error al cargar comunas desde nuestra API:", error);
             setComunas([]);
         } finally {
             setLoadingComunas(false);
         }
-    };
+    }, []);
 
     return { regiones, comunas, loadingRegions, loadingComunas, fetchComunas };
 }

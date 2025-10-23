@@ -114,3 +114,6 @@ export const toggleUserStatus = (id) => {
         method: 'PATCH',
     }).then(handleResponse);
 };
+export const getRegiones = () => fetch(`${API_BASE_URL}/regiones`).then(handleResponse);
+
+export const getComunas = (regionId) => fetch(`${API_BASE_URL}/regiones/${regionId}/comunas`).then(handleResponse);

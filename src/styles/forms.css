@@ -21,7 +21,7 @@
 
 .form-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* Columna principal más ancha que la secundaria */
+    grid-template-columns: 2fr 1fr; /* 2 columnas en escritorio */
     gap: 2rem;
 }
 
@@ -45,6 +45,7 @@
     border-radius: 0.5rem;
     background-color: var(--color-fondo);
     transition: border-color 0.2s, box-shadow 0.2s;
+    word-break: break-all; /* Evita que el texto se desborde */
 }
 
 .form-control:focus, .form-select:focus {
@@ -83,9 +84,14 @@
     border-bottom-left-radius: 0.75rem;
     border-bottom-right-radius: 0.75rem;
 }
-/* Media query para hacer el formulario de una columna en móviles */
+
+/* Regla responsive para móviles */
 @media (max-width: 768px) {
     .form-grid {
+        /* Cambiamos a 1 sola columna en pantallas pequeñas */
         grid-template-columns: 1fr;
+    }
+    .form-body {
+        padding: 1rem;
     }
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Navigate, Outlet, NavLink } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
-import { Footer } from '../Footer/Footer'; // <-- LÍNEA CORREGIDA (CON LLAVES)
+import { Footer } from '../Footer/Footer';
 import './AdminLayout.css';
 
 export function AdminLayout() {
@@ -51,6 +51,7 @@ export function AdminLayout() {
                     </button>
                     <span className="header-user">Hola, {user.nombre || 'Admin'}</span>
                 </header>
+                
                 <main className="content-area">
                     <Outlet />
                 </main>

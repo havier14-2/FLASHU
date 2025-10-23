@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { useMemo, useState } from 'react';
 
 export function ProductList({ page, filters, setFilters, categories, onPageChange, onToggleStatus, onDelete, loading }) {
 
@@ -7,8 +6,6 @@ export function ProductList({ page, filters, setFilters, categories, onPageChang
         const { name, value } = e.target;
         setFilters(prev => ({ ...prev, [name]: value }));
     };
-
-    // Usamos el useEffect de la página padre para recargar, así que aquí no es necesario onPageChange(0)
 
     return (
         <div className="table-container">
@@ -52,7 +49,7 @@ export function ProductList({ page, filters, setFilters, categories, onPageChang
                             <tr><td colSpan="7" className="text-center p-4">Cargando...</td></tr>
                         ) : page.content && page.content.length > 0 ? page.content.map(prod => (
                             <tr key={prod.id} style={{ opacity: prod.activo ? 1 : 0.6 }}>
-                                <td>
+                                <td data-label="Imagen">
                                     {prod.imagen ? (
                                         <img src={`http://localhost:8080/api/uploads/${prod.imagen}`} alt={prod.nombre} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '0.5rem' }} />
                                     ) : (
@@ -61,19 +58,16 @@ export function ProductList({ page, filters, setFilters, categories, onPageChang
                                         </div>
                                     )}
                                 </td>
-                                <td>{prod.id}</td>
-                                <td>{prod.nombre}</td>
-                                
-                                {/* --- LÍNEA CORREGIDA --- */}
-                                <td>${(prod.precio || 0).toLocaleString('es-CL')}</td>
-                                
-                                <td>{prod.stock || 0}</td>
-                                <td>
+                                <td data-label="ID">{prod.id}</td>
+                                <td data-label="Nombre">{prod.nombre}</td>
+                                <td data-label="Precio">${(prod.precio || 0).toLocaleString('es-CL')}</td>
+                                <td data-label="Stock">{prod.stock || 0}</td>
+                                <td data-label="Estado">
                                     <span className={`badge ${prod.activo ? 'bg-success' : 'bg-secondary'}`}>
                                         {prod.activo ? 'Activo' : 'Inactivo'}
                                     </span>
                                 </td>
-                                <td className="action-buttons">
+                                <td data-label="Acciones" className="action-buttons">
                                     <Link to={`/products/edit/${prod.id}`} title="Editar" className={!prod.activo ? 'disabled' : ''}>
                                         <i className="bi bi-pencil-fill"></i>
                                     </Link>
