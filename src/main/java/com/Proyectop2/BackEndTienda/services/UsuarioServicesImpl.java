@@ -27,7 +27,10 @@ public class UsuarioServicesImpl implements UsuarioServices {
 
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
-            if (passwordEncoder.matches(contraseña, usuario.getContrasena()) && "super-admin".equals(usuario.getRol())) {
+            // AQUÍ ESTABA EL CAMBIO: Quitamos la condición && "super-admin".equals(...)
+            // Ahora validamos solo que la contraseña coincida y el usuario esté activo.
+            if (passwordEncoder.matches(contraseña, usuario.getContrasena()) 
+                && "activo".equals(usuario.getEstado())) {
                 return Optional.of(usuario);
             }
         }
