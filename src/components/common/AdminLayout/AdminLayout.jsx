@@ -16,28 +16,57 @@ export function AdminLayout() {
         setSidebarOpen(!isSidebarOpen);
     };
 
+    // Función auxiliar para cerrar el menú al hacer clic en un enlace
+    const closeSidebar = () => setSidebarOpen(false);
+
     return (
         <div className="admin-layout">
+            {/* Overlay oscuro para móviles cuando el menú está abierto */}
+            {isSidebarOpen && (
+                <div 
+                    className="sidebar-overlay" 
+                    onClick={closeSidebar}
+                    style={{
+                        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                        backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 999
+                    }}
+                ></div>
+            )}
+
             <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">
-                    <h3 className="sidebar-title">FLASHU</h3>
+                    <h3 className="sidebar-title">FLASHU Admin</h3>
+                    {/* Botón X para cerrar en móviles */}
+                    <button className="btn-close d-lg-none ms-auto" onClick={closeSidebar}></button>
                 </div>
+                
                 <nav className="sidebar-nav">
-                    <NavLink to="/dashboard" onClick={() => setSidebarOpen(false)}>
+                    <NavLink to="/dashboard" onClick={closeSidebar}>
                         <i className="bi bi-grid-1x2-fill"></i>
                         <span>Dashboard</span>
                     </NavLink>
-                    <NavLink to="/products" onClick={() => setSidebarOpen(false)}>
+                    
+                    <NavLink to="/products" onClick={closeSidebar}>
                         <i className="bi bi-box-seam-fill"></i>
                         <span>Productos</span>
                     </NavLink>
-                    <NavLink to="/users" onClick={() => setSidebarOpen(false)}>
+                    
+                    <NavLink to="/users" onClick={closeSidebar}>
                         <i className="bi bi-people-fill"></i>
                         <span>Usuarios</span>
                     </NavLink>
+
+                    <hr style={{ borderColor: 'rgba(255,255,255,0.1)', margin: '1rem' }} />
+
+                    {/* ENLACE A LA TIENDA CORREGIDO: Sin target="_blank" */}
+                    <NavLink to="/" className="text-warning" onClick={closeSidebar}>
+                        <i className="bi bi-shop"></i>
+                        <span>Ver Tienda Online</span>
+                    </NavLink>
                 </nav>
+
                 <div className="sidebar-footer">
-                    <button onClick={logout} className="logout-button">
+                    <button onClick={() => { closeSidebar(); logout(); }} className="logout-button">
                         <i className="bi bi-box-arrow-left"></i>
                         <span>Cerrar Sesión</span>
                     </button>

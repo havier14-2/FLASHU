@@ -1,30 +1,57 @@
 :root {
-  /* Nueva Paleta de Colores Elegante */
-  --color-primario: #2c5282; /* Un azul más sobrio */
-  --color-primario-hover: #eef2f7;
-  --color-fondo: #f7fafc;
-  --color-superficie: #ffffff;
-  --color-texto: #2d3748;
-  --color-texto-secundario: #718096;
-  --color-borde: #e2e8f0;
-
-  /* Tipografía */
-  font-family: "Poppins", system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.6;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Paleta Dark & Elegant */
+  --bg-body: #0f172a;       /* Fondo muy oscuro (Slate 900) */
+  --bg-card: #1e293b;       /* Fondo de tarjetas (Slate 800) */
+  --text-main: #f1f5f9;     /* Texto blanco suave */
+  --text-muted: #94a3b8;    /* Texto secundario gris */
+  --accent-color: #38bdf8;  /* Azul eléctrico elegante */
+  --accent-hover: #0ea5e9;
+  --gold: #fbbf24;          /* Dorado para destaques */
+  --danger: #ef4444;
+  
+  /* Efectos */
+  --glass-bg: rgba(15, 23, 42, 0.85); /* Fondo semitransparente */
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --shadow-soft: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
 }
 
 body {
   margin: 0;
-  background-color: var(--color-fondo);
-  color: var(--color-texto);
+  font-family: 'Segoe UI', 'Roboto', sans-serif; /* Fuente limpia */
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
 }
 
-main.container {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+a { text-decoration: none; }
+
+/* Scrollbar moderna */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-body); }
+::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
+
+/* Clases Utilitarias para nuestros componentes */
+.text-accent { color: var(--accent-color) !important; }
+.text-gold { color: var(--gold) !important; }
+
+.btn-elegant {
+  background: linear-gradient(45deg, var(--accent-color), var(--accent-hover));
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
+
+.btn-elegant:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(56, 189, 248, 0.4);
+  color: #fff;
+}
+
+/* Animaciones suaves */
+.fade-in { animation: fadeIn 0.5s ease-in; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

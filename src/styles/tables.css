@@ -1,9 +1,12 @@
+/* tables.css - Dark Theme */
+
 .table-container {
-    background-color: var(--color-superficie);
-    border-radius: 0.75rem;
+    background-color: var(--bg-card); /* Slate 800 */
+    border-radius: 16px;
     padding: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--color-borde);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 2rem;
 }
 
 .table-header {
@@ -11,79 +14,102 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
-.table-header h3 { margin: 0; font-weight: 600; }
-.custom-table { width: 100%; border-collapse: collapse; }
+.table-header h3 {
+    margin: 0;
+    font-weight: 700;
+    color: #fff;
+}
 
-.custom-table thead th {
+/* Estilos de la Tabla */
+.custom-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--text-main);
+}
+
+.custom-table th {
     text-align: left;
-    padding: 0.75rem 1rem;
-    background-color: var(--color-fondo);
-    color: var(--color-texto-secundario);
+    padding: 1rem;
+    background-color: rgba(15, 23, 42, 0.5); /* Slate 900 semi-transparente */
+    color: var(--text-muted);
     font-weight: 600;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    border-bottom: 2px solid var(--color-borde);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.custom-table tbody td {
-    padding: 1rem 1rem;
-    border-bottom: 1px solid var(--color-borde);
+.custom-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     vertical-align: middle;
 }
 
-.custom-table tbody tr:hover { background-color: var(--color-primario-hover); }
-.custom-table tbody tr:last-child td { border-bottom: none; }
+.custom-table tr:last-child td {
+    border-bottom: none;
+}
 
-/* ================================================= */
-/* === VERSIÓN FINAL Y DEFINITIVA DEL RESPONSIVE === */
-/* ================================================= */
-@media screen and (max-width: 768px) {
-    .custom-table thead {
-        display: none;
-    }
+.custom-table tr:hover td {
+    background-color: rgba(255, 255, 255, 0.02);
+}
 
-    .custom-table, .custom-table tbody, .custom-table tr, .custom-table td {
-        display: block;
-        width: 100%;
-    }
+/* Imágenes en tabla */
+.custom-table img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-    .custom-table tr {
-        margin-bottom: 1.5rem;
-        border: 1px solid var(--color-borde);
-        border-radius: 0.75rem;
-        overflow: hidden;
-    }
+/* Botones de acción */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
 
-    .custom-table td {
-        padding: 0.75rem 1rem;
-        border-bottom: 1px solid var(--color-borde);
-        /* Esta propiedad permite que el texto largo se divida */
-        word-break: break-word; 
-    }
-    
-    .custom-table td:last-child {
-        border-bottom: none;
-    }
+.action-buttons button,
+.action-buttons a {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    color: var(--text-main);
+    cursor: pointer;
+}
 
-    /* Título (label) */
-    .custom-table td::before {
-        content: attr(data-label);
-        display: block;
-        font-weight: 600;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        color: var(--color-texto-secundario);
-        margin-bottom: 0.25rem;
-    }
-    
-    /* Celda de acciones */
-    .custom-table td[data-label="Acciones"] {
-        padding-top: 1rem;
-    }
-    .custom-table td[data-label="Acciones"]::before {
-        display: none;
-    }
+.action-buttons a:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+.action-buttons button:hover {
+    background: var(--danger);
+    color: white;
+}
+
+/* Inputs de búsqueda en Dark Mode */
+.form-control, .form-select {
+    background-color: #0f172a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+}
+
+.form-control::placeholder {
+    color: #64748b;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2) !important;
 }

@@ -1,0 +1,91 @@
+/* Estilos específicos para el efecto vidrio */
+.navbar-glass {
+    background: rgba(15, 23, 42, 0.8); /* Slate 900 con transparencia */
+    backdrop-filter: blur(12px); /* Efecto borroso detrás */
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+.brand-text {
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    color: #94a3b8 !important; /* Gris suave */
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+}
+
+.nav-link:hover, .nav-link.active-link {
+    color: #fff !important;
+}
+
+/* Pequeña línea debajo del link activo */
+.nav-link.active-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.btn-icon-glass {
+    color: #fff;
+    font-size: 1.2rem;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.btn-icon-glass:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--accent-color);
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--danger);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+/* Dropdown oscuro personalizado */
+.dropdown-dark {
+    background-color: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.dropdown-item { color: var(--text-main); }
+.dropdown-item:hover { background-color: rgba(255,255,255,0.05); color: #fff; }
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 2px solid var(--bg-body);
+}
+
+.custom-toggler { border: none; outline: none; }

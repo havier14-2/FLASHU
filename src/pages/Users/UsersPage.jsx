@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
 import { UserList } from '../../components/users/UserList/UserList';
-import { useChileanRegions } from '../../hooks/useChileanRegions';
+import { useChileanRegions } from '../../hooks/useChileanRegions'; // Importamos el hook
 import { getUsers, toggleUserStatus, deleteUser } from '../../services/apiService';
 import toast from 'react-hot-toast';
 
 export function UsersPage() {
     const [users, setUsers] = useState([]);
-    const { regiones } = useChileanRegions();
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    
+    // AQUÍ ESTÁ LA CLAVE: Usamos el hook para obtener la lista "maestra" de regiones
+    const { regiones } = useChileanRegions(); 
 
     const fetchUsers = async () => {
         setLoading(true);
         try {
             const data = await getUsers();
             setUsers(data);
-            setError(null);
         } catch (err) {
-            setError('No se pudieron cargar los usuarios.');
-            console.error(err);
+            toast.error('Error al cargar usuarios');
         } finally {
             setLoading(false);
         }
@@ -30,40 +29,31 @@ export function UsersPage() {
 
     const handleToggleStatus = async (user) => {
         const action = user.estado === 'activo' ? 'desactivar' : 'activar';
-        if (window.confirm(`¿Seguro que quieres ${action} a ${user.nombre}?`)) {
-            const promise = toggleUserStatus(user.id);
+        if (window.confirm(`¿${action} a ${user.nombre}?`)) {
             try {
-                await toast.promise(promise, {
-                    loading: 'Actualizando estado...',
-                    success: `Usuario ${action}do con éxito`,
-                    error: (err) => `Error: ${err.message}`
-                });
+                await toggleUserStatus(user.id);
+                toast.success(`Estado actualizado`);
                 fetchUsers();
-            } catch (err) {}
+            } catch (err) { toast.error("Error al actualizar"); }
         }
     };
 
     const handleDelete = async (user) => {
-        if (window.confirm(`¡ACCIÓN IRREVERSIBLE! ¿Seguro que quieres ELIMINAR a ${user.nombre}?`)) {
-            const promise = deleteUser(user.id);
+        if (window.confirm(`¿ELIMINAR a ${user.nombre}?`)) {
             try {
-                await toast.promise(promise, {
-                    loading: 'Eliminando usuario...',
-                    success: 'Usuario eliminado con éxito',
-                    error: (err) => `Error: ${err.message}`
-                });
+                await deleteUser(user.id);
+                toast.success("Usuario eliminado");
                 fetchUsers();
-            } catch (err) {}
+            } catch (err) { toast.error("Error al eliminar"); }
         }
     };
 
-    if (loading) return <p>Cargando usuarios...</p>;
-    if (error) return <div className="alert alert-danger">{error}</div>;
+    if (loading) return <div className="text-center mt-5 text-white">Cargando...</div>;
 
     return (
         <UserList 
             users={users} 
-            regiones={regiones}
+            regiones={regiones} // <--- Pasamos las regiones a la tabla para que traduzca los IDs
             onToggleStatus={handleToggleStatus} 
             onDelete={handleDelete} 
         />

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getRegiones, getComunas } from '../services/apiService'; // <-- Usamos nuestro servicio
+import { getRegiones, getComunas } from '../services/apiService'; // Importamos del servicio que ya tiene el token
 
 export function useChileanRegions() {
     const [regiones, setRegiones] = useState([]);
@@ -7,13 +7,14 @@ export function useChileanRegions() {
     const [loadingRegions, setLoadingRegions] = useState(true);
     const [loadingComunas, setLoadingComunas] = useState(false);
 
+    // 1. Cargar Regiones desde TU Backend
     useEffect(() => {
         const fetchRegiones = async () => {
             try {
-                const data = await getRegiones();
+                const data = await getRegiones(); // Llama a localhost:8080/api/regiones
                 setRegiones(data);
             } catch (error) {
-                console.error("Error al cargar regiones desde nuestra API:", error);
+                console.error("Error cargando regiones:", error);
             } finally {
                 setLoadingRegions(false);
             }
@@ -21,17 +22,18 @@ export function useChileanRegions() {
         fetchRegiones();
     }, []);
 
+    // 2. Cargar Comunas desde TU Backend
     const fetchComunas = useCallback(async (regionId) => {
-        if (!regionId || regionId === "") {
+        if (!regionId) {
             setComunas([]);
             return;
         }
         setLoadingComunas(true);
         try {
-            const data = await getComunas(regionId);
+            const data = await getComunas(regionId); // Llama a localhost:8080/api/regiones/{id}/comunas
             setComunas(data);
         } catch (error) {
-            console.error("Error al cargar comunas desde nuestra API:", error);
+            console.error("Error cargando comunas:", error);
             setComunas([]);
         } finally {
             setLoadingComunas(false);

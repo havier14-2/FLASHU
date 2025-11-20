@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { createUser, getUserById, updateUser } from '../../services/apiService';
 import { useChileanRegions } from '../../hooks/useChileanRegions';
 import toast from 'react-hot-toast';
@@ -9,10 +9,11 @@ export function UserForm() {
     const { id } = useParams();
     const isEditing = !!id;
     const navigate = useNavigate();
-    const { register, handleSubmit, setValue, watch, formState: { errors, isSubmitting } } = useForm();
+    
+    // mode: 'onChange' activa las alertas rojas mientras escribes
+    const { register, handleSubmit, setValue, watch, formState: { errors, isSubmitting } } = useForm({ mode: 'onChange' });
     
     const { regiones, comunas, loadingRegions, loadingComunas, fetchComunas } = useChileanRegions();
-    
     const selectedRegion = watch('region');
     const [userToEdit, setUserToEdit] = useState(null);
 
@@ -26,15 +27,13 @@ export function UserForm() {
                     setValue('rol', user.rol);
                     setValue('region', user.region);
                 }),
-                { loading: 'Cargando usuario...', success: 'Datos cargados', error: 'No se pudo cargar el usuario' }
+                { loading: 'Cargando...', success: 'Datos cargados', error: 'Error al cargar usuario' }
             );
         }
     }, [id, isEditing, setValue]);
 
     useEffect(() => {
-        if (selectedRegion) {
-            fetchComunas(selectedRegion);
-        }
+        if (selectedRegion) fetchComunas(selectedRegion);
     }, [selectedRegion, fetchComunas]);
 
     useEffect(() => {
@@ -44,77 +43,132 @@ export function UserForm() {
     }, [comunas, isEditing, userToEdit, setValue]);
 
     const onSubmit = async (data) => {
-        if (isEditing && !data.contrasena) {
-            delete data.contrasena;
-        }
+        if (isEditing && !data.contrasena) delete data.contrasena;
+        
         const promise = isEditing ? updateUser(id, data) : createUser(data);
         try {
             await toast.promise(promise, {
-                loading: 'Guardando usuario...',
-                success: `Usuario ${isEditing ? 'actualizado' : 'creado'} con éxito`,
+                loading: 'Procesando...',
+                success: `Usuario ${isEditing ? 'editado' : 'creado'} correctamente`,
                 error: (err) => `Error: ${err.message}`
             });
             navigate('/users');
         } catch (error) {}
     };
 
-    const passwordValidation = {
-        required: { value: !isEditing, message: 'La contraseña es obligatoria' },
-        minLength: { value: 10, message: 'La contraseña debe tener al menos 10 caracteres' },
-        pattern: {
-            value: /^(?=.*[0-9])(?=.*[^A-Za-z0-9]).*$/,
-            message: "Debe contener al menos un número y un carácter especial"
-        }
-    };
-
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="form-container">
-            <div className="form-header"><h3>{isEditing ? 'Editar' : 'Crear'} Usuario</h3></div>
-            <div className="form-body">
-                <div className="form-group">
-                    <label htmlFor="nombre">Nombre</label>
-                    <input {...register('nombre', { required: 'El nombre es obligatorio' })} className={`form-control ${errors.nombre ? 'is-invalid' : ''}`} />
-                    {errors.nombre && <div className="invalid-feedback">{errors.nombre.message}</div>}
+        <div className="fade-in">
+            <div className="card-dark-form w-100 w-lg-75 mx-auto">
+                <div className="card-dark-header d-flex justify-content-between align-items-center">
+                    <h3 className="mb-0 fw-bold text-primary">
+                        <i className={`bi ${isEditing ? 'bi-person-gear' : 'bi-person-plus'} me-2`}></i>
+                        {isEditing ? 'Editar Usuario' : 'Registrar Usuario'}
+                    </h3>
+                    <Link to="/users" className="btn btn-outline-light btn-sm">Volver</Link>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input type="email" {...register('email', { required: 'El email es obligatorio' })} className={`form-control ${errors.email ? 'is-invalid' : ''}`} />
-                    {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="rol">Rol</label>
-                    <select {...register('rol', { required: 'El rol es obligatorio' })} className={`form-select ${errors.rol ? 'is-invalid' : ''}`} defaultValue="vendedor">
-                        <option value="vendedor">Vendedor</option>
-                        <option value="super-admin">Super Admin</option>
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="contrasena">Contraseña</label>
-                    <input type="password" {...register('contrasena', isEditing ? {} : passwordValidation)} className={`form-control ${errors.contrasena ? 'is-invalid' : ''}`} />
-                    {isEditing && <small className="form-text text-muted">Dejar en blanco para no cambiar la contraseña.</small>}
-                    {errors.contrasena && <div className="invalid-feedback">{errors.contrasena.message}</div>}
-                </div>
-                <div className="row">
-                    <div className="col-md-6 form-group">
-                        <label htmlFor="region">Región</label>
-                        <select {...register('region')} className="form-select" disabled={loadingRegions}>
-                            <option value="">{loadingRegions ? 'Cargando...' : 'Seleccione región'}</option>
-                            {regiones.map(r => <option key={r.id} value={r.id}>{r.nombre}</option>)}
-                        </select>
-                    </div>
-                    <div className="col-md-6 form-group">
-                        <label htmlFor="comuna">Comuna</label>
-                        <select {...register('comuna')} className="form-select" disabled={loadingComunas || !selectedRegion}>
-                            <option value="">{loadingComunas ? 'Cargando...' : 'Seleccione comuna'}</option>
-                            {comunas.map(c => <option key={c.id} value={c.nombre}>{c.nombre}</option>)}
-                        </select>
-                    </div>
+
+                <div className="p-4">
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="row">
+                            <div className="col-md-6 mb-3">
+                                <label className="form-label-dark">Nombre Completo</label>
+                                <input 
+                                    {...register('nombre', { 
+                                        required: 'El nombre es obligatorio',
+                                        minLength: { value: 3, message: 'Mínimo 3 caracteres' },
+                                        pattern: { value: /^[a-zA-Z\s]+$/, message: 'Solo se permiten letras y espacios' }
+                                    })} 
+                                    className={`form-control form-control-dark ${errors.nombre ? 'is-invalid' : ''}`} 
+                                    placeholder="Ej: Juan Pérez"
+                                />
+                                {errors.nombre && <div className="invalid-feedback">{errors.nombre.message}</div>}
+                            </div>
+                            
+                            <div className="col-md-6 mb-3">
+                                <label className="form-label-dark">Correo Electrónico</label>
+                                <input 
+                                    type="email" 
+                                    {...register('email', { 
+                                        required: 'El correo es obligatorio',
+                                        pattern: {
+                                            value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                                            message: 'Formato de correo inválido'
+                                        }
+                                    })} 
+                                    className={`form-control form-control-dark ${errors.email ? 'is-invalid' : ''}`} 
+                                    placeholder="ejemplo@correo.com"
+                                />
+                                {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col-md-6 mb-3">
+                                <label className="form-label-dark">Rol</label>
+                                <select {...register('rol', { required: 'Selecciona un rol' })} className="form-select form-select-dark" defaultValue="cliente">
+                                    <option value="cliente">Cliente</option>
+                                    <option value="vendedor">Vendedor</option>
+                                    <option value="super-admin">Administrador</option>
+                                </select>
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <label className="form-label-dark">Contraseña</label>
+                                <input 
+                                    type="password" 
+                                    {...register('contrasena', isEditing ? {} : { 
+                                        required: 'La contraseña es obligatoria', 
+                                        minLength: { value: 10, message: 'Mínimo 10 caracteres' },
+                                        pattern: {
+                                            // Regla: Al menos 1 número y 1 símbolo
+                                            value: /^(?=.*[0-9])(?=.*[^A-Za-z0-9]).*$/,
+                                            message: 'Debe incluir un número y un símbolo (!@#$)'
+                                        }
+                                    })} 
+                                    className={`form-control form-control-dark ${errors.contrasena ? 'is-invalid' : ''}`} 
+                                    placeholder={isEditing ? '(Sin cambios)' : 'Mín. 10 caracteres + símbolo'}
+                                />
+                                {errors.contrasena && <div className="invalid-feedback">{errors.contrasena.message}</div>}
+                            </div>
+                        </div>
+
+                        <h5 className="text-white mt-3 mb-3 border-bottom border-secondary pb-2">Ubicación</h5>
+
+                        <div className="row">
+                            <div className="col-md-6 mb-3">
+                                <label className="form-label-dark">Región</label>
+                                <select 
+                                    {...register('region', { required: 'Debes seleccionar una región' })} 
+                                    className={`form-select form-select-dark ${errors.region ? 'is-invalid' : ''}`}
+                                    disabled={loadingRegions}
+                                >
+                                    <option value="">Seleccione región...</option>
+                                    {regiones.map(r => <option key={r.id} value={r.id}>{r.nombre}</option>)}
+                                </select>
+                                {errors.region && <div className="invalid-feedback">{errors.region.message}</div>}
+                            </div>
+                            <div className="col-md-6 mb-3">
+                                <label className="form-label-dark">Comuna</label>
+                                <select 
+                                    {...register('comuna', { required: 'Debes seleccionar una comuna' })} 
+                                    className={`form-select form-select-dark ${errors.comuna ? 'is-invalid' : ''}`}
+                                    disabled={loadingComunas || !selectedRegion}
+                                >
+                                    <option value="">Seleccione comuna...</option>
+                                    {comunas.map(c => <option key={c.id} value={c.nombre}>{c.nombre}</option>)}
+                                </select>
+                                {errors.comuna && <div className="invalid-feedback">{errors.comuna.message}</div>}
+                            </div>
+                        </div>
+
+                        <div className="d-flex justify-content-end gap-2 mt-4">
+                            <Link to="/users" className="btn btn-outline-secondary">Cancelar</Link>
+                            <button type="submit" className="btn btn-primary fw-bold px-4" disabled={isSubmitting}>
+                                {isSubmitting ? 'Guardando...' : 'Guardar Usuario'}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div className="form-actions">
-                <button type="button" onClick={() => navigate('/users')} className="btn btn-secondary" disabled={isSubmitting}>Cancelar</button>
-                <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Guardar Usuario</button>
-            </div>
-        </form>
+        </div>
     );
 }

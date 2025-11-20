@@ -1,129 +1,240 @@
+/* Fondo general oscuro para el panel */
 .admin-layout {
   display: flex;
   min-height: 100vh;
+  background-color: #0f172a; /* Fondo base muy oscuro */
+  color: #f8fafc;
 }
 
-/* --- Sidebar (Menú Lateral) --- */
+/* Sidebar Oscuro */
 .sidebar {
   width: 260px;
-  background-color: var(--color-superficie);
-  border-right: 1px solid var(--color-borde);
+  background-color: #1e293b; /* Un poco más claro que el fondo */
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
-  flex-shrink: 0; /* Evita que el sidebar se encoja */
-  transition: margin-left 0.3s ease-in-out;
+  transition: all 0.3s;
 }
 
 .sidebar-header {
   padding: 1.5rem;
-  border-bottom: 1px solid var(--color-borde);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
 }
 
 .sidebar-title {
-  color: var(--color-primario);
-  font-weight: 700;
+  color: #fbbf24; /* Amarillo Warning */
+  font-weight: 800;
+  letter-spacing: 1px;
   margin: 0;
-  font-size: 1.5rem;
-}
-
-.sidebar-nav {
-  flex-grow: 1;
-  padding: 1rem 0;
 }
 
 .sidebar-nav a {
+  color: #94a3b8;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0.9rem 1.5rem;
-  margin: 0.25rem 1rem;
+  gap: 10px;
   text-decoration: none;
-  color: var(--color-texto-secundario);
-  font-weight: 500;
-  border-radius: 0.5rem;
-  transition: background-color 0.2s, color 0.2s;
+  transition: 0.2s;
+  border-left: 3px solid transparent;
 }
 
-.sidebar-nav a i {
-  font-size: 1.2rem;
+.sidebar-nav a:hover, .sidebar-nav a.active {
+  background-color: #334155;
+  color: #fff;
+  border-left-color: #fbbf24;
 }
 
-.sidebar-nav a:hover {
-  background-color: var(--color-primario-hover);
-  color: var(--color-primario);
-}
-
-.sidebar-nav a.active {
-  background-color: var(--color-primario);
-  color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar-footer {
-  padding: 1.5rem;
-  border-top: 1px solid var(--color-borde);
-}
-
-/* ... (resto de estilos del sidebar sin cambios) ... */
-
-/* --- Contenido Principal --- */
+/* Main Content */
 .main-content {
-  flex-grow: 1;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-fondo);
-  /* Asegura que el contenido pueda hacer scroll si es muy largo */
   overflow-y: auto;
+  background: linear-gradient(to bottom right, #0f172a, #1e293b);
 }
 
 .main-header {
-  height: 70px;
-  background-color: var(--color-superficie);
-  border-bottom: 1px solid var(--color-borde);
+  background-color: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 2rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 1.5rem;
-  flex-shrink: 0;
+  align-items: center;
 }
 
-.sidebar-toggle {
-  display: none;
-  background: none;
-  border: 1px solid var(--color-borde);
-  border-radius: 0.5rem;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0.2rem 0.6rem;
+.header-user {
+  font-weight: 600;
+  color: #e2e8f0;
 }
 
 .content-area {
   padding: 2rem;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
-/* --- Lógica Responsive --- */
-@media (max-width: 992px) {
+/* Tablas Estilo Premium */
+.table-dark-custom {
+  background-color: #1e293b;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.table-dark-custom thead {
+  background-color: #0f172a;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+}
+
+.table-dark-custom th, .table-dark-custom td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+  color: #e2e8f0;
+}
+
+.table-dark-custom tr:last-child td {
+  border-bottom: none;
+}
+
+.table-dark-custom tr:hover {
+  background-color: #334155;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 1rem;
+  color: #64748b;
+  font-size: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Botones de Acción */
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: none;
+  transition: 0.2s;
+  margin-right: 5px;
+}
+
+.btn-icon:hover { transform: scale(1.1); }
+.btn-edit { background: #3b82f6; color: white; }
+.btn-delete { background: #ef4444; color: white; }
+.btn-toggle { background: #22c55e; color: white; }
+.btn-toggle.off { background: #64748b; }
+
+/* Responsive */
+@media (max-width: 768px) {
   .sidebar {
     position: fixed;
-    left: 0;
-    top: 0;
+    left: -260px;
     height: 100%;
     z-index: 1000;
-    transform: translateX(-100%); /* Menú oculto por defecto */
-    transition: transform 0.3s ease-in-out;
-    border-right: 1px solid var(--color-borde);
   }
+  .sidebar.open { left: 0; }
+  .sidebar-toggle { display: block; color: white; background: none; border: none; font-size: 1.5rem; }
+}
+/* --- AGREGAR ESTO AL FINAL DEL ARCHIVO --- */
 
-  .sidebar.open {
-    transform: translateX(0); /* Menú visible */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  }
+/* Contenedor de Formularios Oscuro */
+.card-dark-form {
+  background-color: #1e293b; /* Mismo tono que el sidebar/tablas */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  color: #f8fafc;
+}
 
-  .sidebar-toggle {
-    display: block;
-  }
+.card-dark-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  background-color: rgba(15, 23, 42, 0.5); /* Un poco más oscuro */
+  border-radius: 12px 12px 0 0;
+}
+
+/* Inputs Oscuros */
+.form-control-dark {
+  background-color: #0f172a !important; /* Fondo muy oscuro */
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+}
+
+.form-control-dark:focus {
+  border-color: #fbbf24 !important; /* Amarillo al escribir */
+  box-shadow: 0 0 0 0.25rem rgba(251, 191, 36, 0.15) !important;
+}
+
+.form-control-dark::placeholder {
+  color: #64748b !important;
+}
+
+/* Selects Oscuros */
+.form-select-dark {
+  background-color: #0f172a !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+}
+
+/* Labels */
+.form-label-dark {
+  color: #cbd5e1;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+/* --- CORRECCIÓN TABLAS OSCURAS --- */
+
+/* Contenedor de la tabla */
+.table-responsive {
+  background-color: #1e293b !important; /* Fondo oscuro forzado */
+  border-radius: 12px;
+}
+
+/* La tabla en sí */
+.table-dark-custom {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+  margin-bottom: 0;
+  --bs-table-bg: #1e293b; /* Variable de Bootstrap */
+  --bs-table-striped-bg: #253045; /* Color para filas alternas si usas striped */
+}
+
+/* Cabecera */
+.table-dark-custom thead th {
+  background-color: #0f172a !important; /* Cabecera más oscura */
+  color: #94a3b8 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 1.2rem 1rem;
+}
+
+/* Celdas del cuerpo */
+.table-dark-custom tbody td {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  vertical-align: middle;
+  padding: 1rem;
+}
+
+/* Hover (al pasar el mouse) */
+.table-dark-custom tbody tr:hover td {
+  background-color: #334155 !important; /* Un poco más claro al pasar mouse */
+  color: #fff !important;
+}
+
+/* Eliminar bordes blancos molestos */
+.table>:not(caption)>*>* {
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
