@@ -16,7 +16,9 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long total;
+    private Long total;      // Precio Final (con IVA)
+    private Long montoNeto;  // Precio sin IVA
+    private Long montoIva;   // El 19%
 
     @CreationTimestamp
     private LocalDateTime fecha;
@@ -27,11 +29,8 @@ public class Venta {
     private Usuario usuario;
 
     private String estado; 
-
-    // --- CORRECCIÓN 1: Agregamos este campo que faltaba ---
     private Integer cantidadItems; 
 
-    // Relación con los detalles
     @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("venta")
     private List<DetalleVenta> detalles = new ArrayList<>();
