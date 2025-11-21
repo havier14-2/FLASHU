@@ -8,7 +8,7 @@
 
 El sistema está diseñado bajo una arquitectura segura y escalable, cumpliendo con estándares de la industria como autenticación **JWT**, encriptación **BCrypt** y separación de roles.
 
-### 🚀 Funcionalidades Implementadas 
+### 🚀 Funcionalidades Implementadas
 
 1.  **Autenticación y Seguridad (Spring Security + JWT):**
     * Login seguro con generación de Token JWT.
@@ -74,7 +74,7 @@ Clona el repositorio y asegúrate de tener las dos carpetas principales: `backen
 1.  Abre una terminal en la carpeta del frontend (`FLASHU`).
 2.  Instala las dependencias:
     ```bash
-    npm run dev
+    npm install
     ```
 
 ---
@@ -103,5 +103,27 @@ El proyecto cuenta con una suite de pruebas unitarias y de integración para com
 ```bash
 npm run test
 
-🎨 Para abrir la Interfaz Visual (UI) de Vitest:Esta opción permite ver gráficos, logs y el estado de los tests en tiempo real en el navegador.Bashnpm run test:ui
-🔑 Credenciales de PruebaEl sistema viene pre-cargado con estos usuarios para facilitar la corrección y pruebas:RolEmailContraseñaAdministradoradmin@flashu.cladmin123Clientecliente@flashu.clcliente123Profesoraprofevivi@flashu.clprofe123📚 Documentación APIEl backend expone documentación Swagger/OpenAPI para probar los endpoints directamente. Una vez iniciado el servidor, accede en:👉 http://localhost:8080/swagger-ui.html
+```
+
+### 🎨 Para abrir la Interfaz Visual (UI) de Vitest:
+```bash
+    npm run dev:ui
+
+```
+
+### 🔑 Credenciales de Prueba
+El sistema viene pre-cargado con estos usuarios para facilitar la corrección y pruebas:
+| Rol | Email | Contraseña |
+| :--- | :--- | :--- |
+| **Administrador** | admin@flashu.cl | admin123 |
+| **Cliente** | cliente@flashu.cl | cliente123 |
+| **Profesora** | profevivi@flashu.cl | profe123 |
+
+### 📚 Documentación API
+El backend expone documentación Swagger para probar los 
+endpoints directamente. Una vez iniciado el servidor, 
+accede en:
+
+👉 http://localhost:8080/swagger-ui.html
+
+
