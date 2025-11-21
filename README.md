@@ -8,7 +8,7 @@
 
 El sistema está diseñado bajo una arquitectura segura y escalable, cumpliendo con estándares de la industria como autenticación **JWT**, encriptación **BCrypt** y separación de roles.
 
-### 🚀 Funcionalidades Implementadas (Rúbrica Cumplida 100%)
+### 🚀 Funcionalidades Implementadas 
 
 1.  **Autenticación y Seguridad (Spring Security + JWT):**
     * Login seguro con generación de Token JWT.
@@ -61,20 +61,20 @@ Antes de empezar, asegúrate de tener instalado el siguiente software:
 Clona el repositorio y asegúrate de tener las dos carpetas principales: `backend` y `frontend`.
 
 ### **2. Configuración del Backend y Base de Datos**
-1.  **Base de Datos:** Abre tu gestor SQL y crea una base de datos llamada `tienda_db` (o ajusta el nombre en `application.properties`).
+1.  **Base de Datos:** Abre tu gestor SQL y crea una base de datos llamada `basesita` (o ajusta el nombre en `application.properties`).
 2.  **Configuración:** En la carpeta `src/main/resources/application.properties`, verifica tus credenciales:
     ```properties
     spring.datasource.url=jdbc:mysql://localhost:3306/tienda_db
     spring.datasource.username=root
     spring.datasource.password=
     ```
-3.  **Inicialización:** Al correr la aplicación por primera vez, Hibernate creará las tablas automáticamente. Puedes usar el script `datos_prueba.sql` para poblar la base de datos.
+3.  **Inicialización:** Al correr la aplicación por primera vez, Hibernate creará las tablas automáticamente. Puedes usar el script para poblar la base de datos.
 
 ### **3. Configuración del Frontend**
 1.  Abre una terminal en la carpeta del frontend (`FLASHU`).
 2.  Instala las dependencias:
     ```bash
-    npm install
+    npm run dev
     ```
 
 ---
@@ -102,3 +102,23 @@ El proyecto cuenta con una suite de pruebas unitarias y de integración para com
 ### Para correr los tests en consola:
 ```bash
 npm run test
+
+## Para abrir la Interfaz Visual (UI) de Vitest:
+Esta opción permite ver gráficos, logs y el estado de los tests en tiempo real.
+
+```Bash
+
+npm run test:ui
+
+##Credenciales de Prueba
+El sistema viene pre-cargado con estos usuarios para facilitar la corrección y pruebas:
+
+Rol	         Email	                   Contraseña
+Administrador	admin@flashu.cl	         admin123
+Cliente	      cliente@flashu.cl	         cliente123
+Profesora	   profevivi@flashu.cl	      profe123
+
+Documentación API
+El backend expone documentación Swagger/OpenAPI para probar los endpoints directamente. Una vez iniciado el servidor, accede en:
+
+http://localhost:8080/swagger-ui.html
