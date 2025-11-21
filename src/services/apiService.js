@@ -154,8 +154,17 @@ export const createVenta = (ventaData) => {
     }).then(handleResponse);
 };
 
+
 export const getMyPurchases = () => {
     return fetch(`${API_BASE_URL}/ventas/mis-compras`, {
+        method: 'GET',
+        headers: getAuthHeaders(),
+    }).then(handleResponse);
+};
+
+// --- NUEVO: Para el Admin ---
+export const getAllSales = () => {
+    return fetch(`${API_BASE_URL}/ventas/admin/todas`, {
         method: 'GET',
         headers: getAuthHeaders(),
     }).then(handleResponse);

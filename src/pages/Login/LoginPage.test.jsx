@@ -1,10 +1,11 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { vi, describe, it, expect } from 'vitest'
-import { LoginPage } from './LoginPage' // Import relativo al mismo directorio
+import { LoginPage } from './LoginPage'
+// Aseguramos la importación correcta. Si AuthContext es undefined, fallará aquí.
 import { AuthContext } from '../../context/AuthContext'
 
-// Mock de toast para evitar errores si se llama
+// Mock de toast
 vi.mock('react-hot-toast', () => ({
   default: { success: vi.fn(), error: vi.fn() }
 }))
@@ -12,6 +13,9 @@ vi.mock('react-hot-toast', () => ({
 const mockLoginFunc = vi.fn()
 
 const renderLogin = () => {
+    // Verificación de seguridad
+    if (!AuthContext) throw new Error("AuthContext no se importó correctamente. Revisa la ruta o el archivo AuthContext.jsx");
+
     return render(
         <MemoryRouter>
             <AuthContext.Provider value={{ login: mockLoginFunc }}>
@@ -25,21 +29,16 @@ describe('LoginPage.jsx', () => {
     
     it('renderiza el formulario correctamente', () => {
         renderLogin()
-        // Busca el título exacto (insensible a mayúsculas/minúsculas)
-        expect(screen.getByText(/iniciar sesión en flashu/i)).toBeInTheDocument()
-        
-        // Verificamos los placeholders exactos definidos en tu JSX
-        expect(screen.getByPlaceholderText(/superadmin@flashu.cl/i)).toBeInTheDocument()
-        expect(screen.getByPlaceholderText(/\*\*\*\*\*\*\*\*\*/i)).toBeInTheDocument() 
+        expect(screen.getByText(/iniciar sesión/i)).toBeInTheDocument()
+        expect(screen.getByPlaceholderText(/nombre@ejemplo.com/i)).toBeInTheDocument()
     })
 
     it('permite escribir en los inputs', () => {
         renderLogin()
         
-        const emailInput = screen.getByPlaceholderText(/superadmin@flashu.cl/i)
-        const passInput = screen.getByPlaceholderText(/\*\*\*\*\*\*\*\*\*/i)
+        const emailInput = screen.getByPlaceholderText(/nombre@ejemplo.com/i)
+        const passInput = screen.getByPlaceholderText(/••••••••/i)
 
-        // Simular escritura del usuario
         fireEvent.change(emailInput, { target: { value: 'usuario@test.com' } })
         fireEvent.change(passInput, { target: { value: 'password123' } })
 

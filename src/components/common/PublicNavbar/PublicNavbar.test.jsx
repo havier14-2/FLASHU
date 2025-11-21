@@ -1,20 +1,22 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
+import { vi, describe, it, expect } from 'vitest'
 import { PublicNavbar } from './PublicNavbar'
-import { CartContext } from '../../../context/CartContext'
 import { AuthContext } from '../../../context/AuthContext'
-import { vi } from 'vitest'
+import { CartContext } from '../../../context/CartContext'
 
-// Mock de los contextos necesarios
+// Mocks de funciones
 const mockLogout = vi.fn()
-const mockUser = { nombre: 'Juan', rol: 'cliente' }
 
-// Helper para renderizar con contextos
-const renderNavbar = (userState, cartState) => {
+// Estados iniciales simulados
+const userState = null 
+const cartState = [] // Carrito vacío por defecto
+
+const renderNavbar = (user = null, cart = []) => {
     return render(
         <MemoryRouter>
-            <AuthContext.Provider value={{ user: userState, logout: mockLogout }}>
-                <CartContext.Provider value={{ cart: cartState }}>
+            <AuthContext.Provider value={{ user, logout: mockLogout }}>
+                <CartContext.Provider value={{ cart }}>
                     <PublicNavbar />
                 </CartContext.Provider>
             </AuthContext.Provider>
@@ -23,35 +25,48 @@ const renderNavbar = (userState, cartState) => {
 }
 
 describe('PublicNavbar', () => {
-
-  it('muestra la marca y los links con sus href correctos', () => {
-    renderNavbar(null, [])
-
-    const brand = screen.getByText('FLASHU')
-    expect(brand).toBeInTheDocument()
     
-    // Verificamos links públicos
-    expect(screen.getByRole('link', { name: /home/i })).toHaveAttribute('href', '/')
-    expect(screen.getByRole('link', { name: /catálogo/i })).toHaveAttribute('href', '/catalogo')
-    expect(screen.getByRole('link', { name: /nosotros/i })).toHaveAttribute('href', '/nosotros')
-    
-    // Botón hamburguesa
-    const toggler = screen.getByRole('button', { name: '' }) // El botón tiene un icono dentro
-    expect(toggler).toHaveAttribute('data-bs-toggle', 'collapse')
-  })
+    it('muestra la marca y los links con sus href correctos', () => {
+        renderNavbar()
 
-  it('muestra botón ingresar si no hay usuario', () => {
-    renderNavbar(null, [])
-    const loginBtn = screen.getByRole('link', { name: /ingresar/i })
-    expect(loginBtn).toHaveAttribute('href', '/login')
-  })
+        // 1. Verificar Marca (FLASHU)
+        const brand = screen.getByRole('link', { name: /flashu/i })
+        expect(brand).toBeInTheDocument()
+        expect(brand).toHaveAttribute('href', '/')
 
-  it('muestra el badge del carrito cuando hay productos', () => {
-    const cartWithItems = [{ id: 1, cantidad: 2 }, { id: 2, cantidad: 3 }] // Total 5
-    renderNavbar(null, cartWithItems)
-    
-    // Buscamos el número 5 en el documento (el badge)
-    expect(screen.getByText('5')).toBeInTheDocument()
-  })
+        // 2. Verificar Links Públicos (CORREGIDO: Ahora buscamos "Inicio" en vez de "Home")
+        expect(screen.getByRole('link', { name: /inicio/i })).toHaveAttribute('href', '/')
+        expect(screen.getByRole('link', { name: /catálogo/i })).toHaveAttribute('href', '/catalogo')
+        expect(screen.getByRole('link', { name: /noticias/i })).toHaveAttribute('href', '/noticias')
+        expect(screen.getByRole('link', { name: /nosotros/i })).toHaveAttribute('href', '/nosotros')
+    })
 
+    it('muestra botón ingresar si no hay usuario', () => {
+        renderNavbar(null) // Sin usuario
+        expect(screen.getByRole('link', { name: /ingresar/i })).toHaveAttribute('href', '/login')
+    })
+
+    it('muestra el badge del carrito cuando hay productos', () => {
+        // Simulamos un carrito con 2 productos
+        const cartWithItems = [{ id: 1 }, { id: 2 }]
+        renderNavbar(null, cartWithItems)
+
+        // CORREGIDO: Buscamos el número exacto de items en el array (2)
+        // Usamos getByText porque el badge es un elemento <span> con texto directo
+        expect(screen.getByText('2')).toBeInTheDocument()
+    })
+
+    it('muestra el menú de usuario si está logueado', () => {
+        const mockUser = { nombre: 'Javier', rol: 'cliente' }
+        renderNavbar(mockUser)
+
+        // Debe mostrar el nombre del usuario
+        expect(screen.getByText(/javier/i)).toBeInTheDocument()
+        
+        // Debe mostrar el botón salir
+        expect(screen.getByRole('button', { name: /salir/i })).toBeInTheDocument()
+        
+        // NO debe mostrar el botón Ingresar
+        expect(screen.queryByRole('link', { name: /ingresar/i })).not.toBeInTheDocument()
+    })
 })

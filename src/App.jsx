@@ -20,6 +20,7 @@ import { UsersPage } from './pages/Users/UsersPage';
 import { UserFormPage } from './pages/Users/UserFormPage';
 import { ProductsPage } from './pages/Products/ProductsPage';
 import { ProductForm } from './components/products/ProductForm/ProductForm';
+import { AdminSalesPage } from './pages/Dashboard/AdminSalesPage';
 
 // --- Estilos ---
 import './App.css';
@@ -63,6 +64,7 @@ function App() {
                             <Route path="/users" element={<UsersPage />} />
                             <Route path="/users/create" element={<UserFormPage />} />
                             <Route path="/users/edit/:id" element={<UserFormPage />} />
+                            <Route path="/ventas-admin" element={<AdminSalesPage />} />
                         </Route>
                         
                         {/* CATCH-ALL: Si la ruta no existe, va al inicio */}

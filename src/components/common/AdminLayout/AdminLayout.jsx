@@ -56,9 +56,15 @@ export function AdminLayout() {
                         <span>Usuarios</span>
                     </NavLink>
 
+                    {/* --- ENLACE NUEVO: Registro de Ventas --- */}
+                    <NavLink to="/ventas-admin" onClick={closeSidebar}>
+                        <i className="bi bi-receipt"></i>
+                        <span>Ventas</span>
+                    </NavLink>
+
                     <hr style={{ borderColor: 'rgba(255,255,255,0.1)', margin: '1rem' }} />
 
-                    {/* ENLACE A LA TIENDA CORREGIDO: Sin target="_blank" */}
+                    {/* Enlace a la Tienda */}
                     <NavLink to="/" className="text-warning" onClick={closeSidebar}>
                         <i className="bi bi-shop"></i>
                         <span>Ver Tienda Online</span>
