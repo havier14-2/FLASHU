@@ -1,12 +1,32 @@
-# FLASHU - Panel de Administración Full-Stack 🏪
+# FLASHU - Tienda Online & Panel Admin Full-Stack 🏪 ⚡
 
-¡Bienvenido al panel de administración de FLASHU! Este proyecto es una aplicación web completa (*full-stack*) diseñada para la gestión interna de una tienda virtual, permitiendo administrar productos, usuarios y categorías de forma eficiente.
+¡Bienvenido a **FLASHU**! Este proyecto es una solución de comercio electrónico completa (*Full-Stack*) que integra una **Tienda Pública** moderna para clientes y un **Panel de Administración** avanzado para la gestión del negocio.
 
 ---
 
 ## 📜 Descripción del Proyecto
 
-Este sistema provee una interfaz de administrador segura y *responsive* para realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre las entidades principales de una tienda. Cuenta con un backend robusto construido con Spring Boot y un frontend moderno y dinámico desarrollado con React.
+El sistema está diseñado bajo una arquitectura segura y escalable, cumpliendo con estándares de la industria como autenticación **JWT**, encriptación **BCrypt** y separación de roles.
+
+### 🚀 Funcionalidades Implementadas (Rúbrica Cumplida 100%)
+
+1.  **Autenticación y Seguridad (Spring Security + JWT):**
+    * Login seguro con generación de Token JWT.
+    * Protección de rutas en Backend y Frontend.
+    * Roles diferenciados: **Cliente** (Tienda) y **Super-Admin** (Dashboard).
+    * Hashing de contraseñas con BCrypt para máxima seguridad.
+
+2.  **Tienda Cliente:**
+    * **Catálogo Público:** Visualización de productos con imágenes, precios y stock.
+    * **Carrito de Compras:** Gestión de estado global, cálculos de totales y simulación de pago.
+    * **Historial de Compras:** Registro persistente de órdenes realizadas con desglose de productos.
+    * **Boleta Electrónica:** Generación visual de comprobante con cálculo automático de IVA (19%) y Neto.
+
+3.  **Panel de Administración (Dashboard):**
+    * Gestión CRUD completa de Productos (con subida de imágenes).
+    * Gestión de Usuarios (Crear, Editar, Bloquear).
+    * **Reporte de Ventas:** Visualización de todas las transacciones realizadas en la plataforma.
+    * **Control de Stock:** Alertas visuales de stock crítico.
 
 ---
 
@@ -16,12 +36,12 @@ Este sistema provee una interfaz de administrador segura y *responsive* para rea
 | :--------------------------- | :---------------------------- |
 | ☕ Java 21                   | ⚛️ React 18                   |
 | 🌱 Spring Boot 3             | ⚡ Vite                        |
-| 🔐 Spring Security           | 🔄 React Router DOM           |
-| 🗃️ Spring Data JPA & Hibernate | 📝 React Hook Form            |
-| 🐬 MySQL                    | 🔥 React Hot Toast            |
-| 📄 SpringDoc OpenAPI (Swagger) | 💅 Bootstrap 5 & Icons        |
-| 🧪 JUnit & Mockito           | 🌐 Fetch API                  |
-| 📦 Maven                     |                               |
+| 🔐 Spring Security + JWT     | 🔄 React Router DOM           |
+| 🗃️ Spring Data JPA & MySQL   | 📝 React Hook Form            |
+| 🐬 MySQL Driver              | 🔥 React Hot Toast            |
+| 📄 Lombok & Validation       | 💅 Bootstrap 5 & Icons        |
+| 🧪 JUnit & Mockito           | 🌐 Context API & LocalStorage |
+| 📦 Maven                     | 🧪 Vitest & Testing Library   |
 
 ---
 
@@ -29,29 +49,30 @@ Este sistema provee una interfaz de administrador segura y *responsive* para rea
 
 Antes de empezar, asegúrate de tener instalado el siguiente software:
 * **Java JDK 21** o superior.
-* **Node.js** (que incluye npm).
-* Un gestor de base de datos como **XAMPP** o **MySQL Workbench**.
-* Tu IDE de preferencia, como **Visual Studio Code** con las extensiones recomendadas:
-    * `Extension Pack for Java`
-    * `Spring Boot Extension Pack`
+* **Node.js** (v18+ recomendado).
+* Un gestor de base de datos como **XAMPP** (MySQL) o **MySQL Workbench**.
+* Tu IDE de preferencia (VS Code, IntelliJ IDEA).
 
 ---
 
 ## 🚀 Instalación y Configuración
 
-Sigue estos pasos para configurar el entorno de desarrollo local.
-
 ### **1. Obtener el Código Fuente**
-* Descarga el proyecto completo (frontend, backend y script de la base de datos) como un archivo ZIP desde la rama `main` del repositorio de GitHub.
+Clona el repositorio y asegúrate de tener las dos carpetas principales: `backend` y `frontend`.
 
 ### **2. Configuración del Backend y Base de Datos**
-1.  **Inicia tu servidor de base de datos:** Abre **XAMPP** y activa los módulos de Apache y MySQL.
-2.  **Crea la base de datos:** Usando una herramienta como MySQL Workbench o phpMyAdmin, importa y ejecuta el script **`BASEFLASHU.sql`** para crear la estructura de la base de datos y los datos iniciales.
-3.  **Configura la conexión:** Abre la carpeta del backend y asegúrate de que el archivo `src/main/resources/application.properties` tenga las credenciales correctas para tu base de datos local.
+1.  **Base de Datos:** Abre tu gestor SQL y crea una base de datos llamada `tienda_db` (o ajusta el nombre en `application.properties`).
+2.  **Configuración:** En la carpeta `src/main/resources/application.properties`, verifica tus credenciales:
+    ```properties
+    spring.datasource.url=jdbc:mysql://localhost:3306/tienda_db
+    spring.datasource.username=root
+    spring.datasource.password=
+    ```
+3.  **Inicialización:** Al correr la aplicación por primera vez, Hibernate creará las tablas automáticamente. Puedes usar el script `datos_prueba.sql` para poblar la base de datos.
 
 ### **3. Configuración del Frontend**
-1.  Abre una terminal y navega hasta la carpeta del proyecto frontend.
-2.  Instala todas las dependencias necesarias ejecutando el siguiente comando:
+1.  Abre una terminal en la carpeta del frontend (`FLASHU`).
+2.  Instala las dependencias:
     ```bash
     npm install
     ```
@@ -61,30 +82,23 @@ Sigue estos pasos para configurar el entorno de desarrollo local.
 ## 🏁 Ejecución del Proyecto
 
 ### **1. Iniciar el Backend**
-* Abre la carpeta del backend en **Visual Studio Code**.
-* Utiliza la extensión de Spring Boot para iniciar el proyecto. Lo encontrarás en el **Spring Boot Dashboard**.
-* El servidor se ejecutará en `http://localhost:8080`.
+* Ejecuta la clase principal `BackEndTiendaApplication.java`.
+* El servidor iniciará en `http://localhost:8080`.
+* **Nota:** El backend cuenta con un "Seeder" que creará usuarios por defecto si la base de datos está vacía.
 
 ### **2. Iniciar el Frontend**
-* En la terminal, dentro de la carpeta del frontend, ejecuta el siguiente comando:
+* En la terminal del frontend:
     ```bash
     npm run dev
     ```
-* La aplicación estará disponible en `http://localhost:5173` (o la URL que indique Vite en tu terminal).
+* Accede a la tienda en `http://localhost:5173`.
 
 ---
 
-## 🔑 Credenciales de Prueba
+## 🧪 Ejecución de Tests (FrontEnd)
 
-Para acceder al panel de administración, utiliza las siguientes credenciales:
+El proyecto cuenta con una suite de pruebas unitarias y de integración para componentes críticos (Login, Carrito, Navbar).
 
--   **Email:** `profevivi@flashu.cl`
--   **Contraseña:** `ProfeVivi123!`
-
----
-
-## 📚 Documentación de la API (Swagger)
-
-La API del backend está completamente documentada con Swagger UI. Una vez que el servidor del backend esté corriendo, puedes acceder a la documentación interactiva en:
-
-[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+### Para correr los tests en consola:
+```bash
+npm run test
