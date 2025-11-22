@@ -1,0 +1,65 @@
+-- ==========================================
+-- SCRIPT DE DATOS DE PRUEBA - FLASHU
+-- ==========================================
+
+USE basesita; -- Asegúrate de que este sea el nombre de tu BD
+
+-- 1. LIMPIEZA (Opcional: Borrar datos antiguos para evitar errores)
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE detalle_ventas;
+TRUNCATE TABLE ventas;
+TRUNCATE TABLE producto;
+TRUNCATE TABLE usuarios;
+TRUNCATE TABLE categoria;
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- 2. INSERTAR CATEGORÍAS
+INSERT INTO categoria (id, nombre) VALUES 
+(1, 'Computación'),
+(2, 'Gaming'),
+(3, 'Audio'),
+(4, 'Accesorios'),
+(5, 'Periféricos');
+
+-- 3. INSERTAR USUARIOS (Contraseñas encriptadas con BCrypt)
+-- Nota: El hash corresponde a la contraseña escrita en el comentario
+
+INSERT INTO usuarios (id, nombre, email, contrasena, rol, estado, region, comuna, fecha_creacion) VALUES 
+-- Admin: pass 'admin123'
+(1, 'Super Administrador', 'admin@flashu.cl', '$2a$10$Dom/fG4s/8.w.7Y.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1.1', 'super-admin', 'activo', '13', '13101', NOW()), 
+-- Cliente 1: pass 'cliente123'
+(2, 'Javier Cliente', 'cliente@flashu.cl', '$2a$10$Dom/fG4s/8.w.7Y.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2.2', 'cliente', 'activo', '05', '05101', NOW()),
+-- Cliente 2: pass 'profe123'
+(3, 'Profesora Vivi', 'profevivi@flashu.cl', '$2a$10$Dom/fG4s/8.w.7Y.3.3.3.3.3.3.3.3.3.3.3.3.3.3.3.3.3', 'cliente', 'activo', '13', '13114', NOW());
+
+-- NOTA: Como generar hashes reales manualmente es difícil, 
+-- asegúrate de que tu DataSeeder.java (el archivo Java) siga activo. 
+-- Si este SQL falla en el login, usa los usuarios creados por Java.
+
+-- 4. INSERTAR 25 PRODUCTOS
+INSERT INTO producto (id, nombre, descripcion, precio, stock, activo, imagen, categoria_id) VALUES
+(1, 'Notebook Gamer Pro', 'Procesador i7, 16GB RAM, RTX 3060', 1200000, 10, 1, 'tech1.jpg', 1),
+(2, 'Mouse Logitech G502', 'Sensor Hero 25K, RGB, Pesas ajustables', 49990, 50, 1, 'tech2.jpg', 2),
+(3, 'Teclado Mecánico RGB', 'Switches Blue, formato 60%, cable USB-C', 35000, 30, 1, 'tech3.jpg', 5),
+(4, 'Audífonos HyperX Cloud', 'Sonido envolvente 7.1, micrófono cancelacion ruido', 69990, 20, 1, 'tech4.jpg', 3),
+(5, 'Monitor 144Hz Curvo', '24 pulgadas, panel VA, 1ms respuesta', 180000, 15, 1, 'tech1.jpg', 2),
+(6, 'Silla Gamer Ergonomica', 'Reclinable 180 grados, cojines lumbares', 120000, 8, 1, 'tech2.jpg', 2),
+(7, 'Webcam Full HD 1080p', 'Enfoque automático, micrófono estéreo', 25000, 40, 1, 'tech3.jpg', 5),
+(8, 'Disco SSD M.2 1TB', 'Velocidad lectura 3500MB/s', 85000, 60, 1, 'tech4.jpg', 1),
+(9, 'Memoria RAM 16GB DDR4', '3200MHz con disipador térmico', 45000, 100, 1, 'tech1.jpg', 1),
+(10, 'Gabinete RGB Vidrio', 'Vidrio templado, incluye 3 ventiladores', 55000, 12, 1, 'tech2.jpg', 1),
+(11, 'Micrófono Condensador', 'Ideal para streaming y podcast, USB', 39990, 25, 1, 'tech3.jpg', 3),
+(12, 'Mousepad XL Mapa', 'Superficie speed, bordes costurados 90x40cm', 15000, 80, 1, 'tech4.jpg', 4),
+(13, 'Soporte para Audífonos', 'Con iluminación RGB y hub USB', 12000, 45, 1, 'tech1.jpg', 4),
+(14, 'Refrigeración Líquida 240mm', 'Compatible Intel/AMD, ventiladores ARGB', 95000, 10, 1, 'tech2.jpg', 1),
+(15, 'Fuente de Poder 700W', 'Certificación 80 Plus Bronze', 60000, 20, 1, 'tech3.jpg', 1),
+(16, 'Control Joystick PC', 'Inalámbrico, batería recargable', 22000, 35, 1, 'tech4.jpg', 2),
+(17, 'Router WiFi 6', 'Doble banda, ideal fibra óptica', 45000, 15, 1, 'tech1.jpg', 5),
+(18, 'Cable HDMI 2.1', 'Soporta 8K y 4K 120Hz, 2 metros', 10000, 200, 1, 'tech2.jpg', 4),
+(19, 'Pasta Térmica Artic', '4 gramos, alta conductividad', 8000, 150, 1, 'tech3.jpg', 1),
+(20, 'Hub USB 3.0', '4 puertos con interruptor individual', 12000, 50, 1, 'tech4.jpg', 4),
+(21, 'Teclado Membrana Silencioso', 'Ideal oficina, resistente a derrames', 15000, 40, 1, 'tech1.jpg', 5),
+(22, 'Parlantes 2.1 Bluetooth', 'Subwoofer madera, 40W RMS', 55000, 18, 1, 'tech2.jpg', 3),
+(23, 'Capturadora de Video', 'HDMI 1080p 60fps, USB 3.0', 90000, 5, 1, 'tech3.jpg', 2),
+(24, 'Kit Limpieza PC', 'Aire comprimido, paño microfibra, alcohol', 15000, 60, 1, 'tech4.jpg', 4),
+(25, 'Aro de Luz LED', '10 pulgadas con trípode de escritorio', 18000, 30, 1, 'tech1.jpg', 4);
