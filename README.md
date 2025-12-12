@@ -98,13 +98,6 @@ El sistema utiliza un patrón **MVC (Modelo-Vista-Controlador)** en el backend e
 * **Service Layer:** Contiene la lógica de negocio, cálculos y validaciones antes de persistir datos.
 * **Repository Layer:** Interactúa directamente con la base de datos mediante abstracciones de Hibernate/JPA.
 
----
-
-## 📬 Contacto
-
-**Javier Albornoz Carrasco** - Full Stack Developer
-* [LinkedIn](www.linkedin.com/in/javier-albornoz-carrasco-a8357336b)
-* [Email](mailto:javierluciano14@gmail.com)
 
 ---
 *Este proyecto es parte de mi portafolio profesional.*
