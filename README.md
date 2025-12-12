@@ -1,130 +1,110 @@
-# FLASHU - Tienda Online & Panel Admin Full-Stack 🏪 ⚡
+# ⚡ FLASHU - Sistema de Gestión de Recursos (ERP)
 
-¡Bienvenido a **FLASHU**! Este proyecto es una solución de comercio electrónico completa (*Full-Stack*) que integra una **Tienda Pública** moderna para clientes y un **Panel de Administración** avanzado para la gestión del negocio.
+![Java](https://img.shields.io/badge/Java-17-orange)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.0-green)
+![React](https://img.shields.io/badge/React-18-blue)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)
+![Status](https://img.shields.io/badge/Status-Completed-success)
 
----
+> **Una solución Full Stack integral para la gestión eficiente de inventarios, ventas y administración de usuarios.**
 
-## 📜 Descripción del Proyecto
+## 📖 Descripción del Proyecto
 
-El sistema está diseñado bajo una arquitectura segura y escalable, cumpliendo con estándares de la industria como autenticación **JWT**, encriptación **BCrypt** y separación de roles.
+**FLASHU** es una aplicación web diseñada para digitalizar y optimizar los procesos operativos de pequeños y medianos negocios. El sistema permite a los administradores mantener un control preciso del stock en tiempo real, gestionar flujos de ventas y administrar roles de usuarios dentro de la organización.
 
-### 🚀 Funcionalidades Implementadas
-
-1.  **Autenticación y Seguridad (Spring Security + JWT):**
-    * Login seguro con generación de Token JWT.
-    * Protección de rutas en Backend y Frontend.
-    * Roles diferenciados: **Cliente** (Tienda) y **Super-Admin** (Dashboard).
-    * Hashing de contraseñas con BCrypt para máxima seguridad.
-
-2.  **Tienda Cliente:**
-    * **Catálogo Público:** Visualización de productos con imágenes, precios y stock.
-    * **Carrito de Compras:** Gestión de estado global, cálculos de totales y simulación de pago.
-    * **Historial de Compras:** Registro persistente de órdenes realizadas con desglose de productos.
-    * **Boleta Electrónica:** Generación visual de comprobante con cálculo automático de IVA (19%) y Neto.
-
-3.  **Panel de Administración (Dashboard):**
-    * Gestión CRUD completa de Productos (con subida de imágenes).
-    * Gestión de Usuarios (Crear, Editar, Bloquear).
-    * **Reporte de Ventas:** Visualización de todas las transacciones realizadas en la plataforma.
-    * **Control de Stock:** Alertas visuales de stock crítico.
+El proyecto fue construido siguiendo una arquitectura **desacoplada (Frontend vs Backend)**, utilizando **Spring Boot** para proveer una API RESTful robusta y segura, y **React.js** para ofrecer una experiencia de usuario (SPA) moderna y reactiva.
 
 ---
 
-## ✨ Tecnologías Utilizadas
+## 🚀 Características Principales
 
-| Backend (Spring Boot)        | Frontend (React)              |
-| :--------------------------- | :---------------------------- |
-| ☕ Java 21                   | ⚛️ React 18                   |
-| 🌱 Spring Boot 3             | ⚡ Vite                        |
-| 🔐 Spring Security + JWT     | 🔄 React Router DOM           |
-| 🗃️ Spring Data JPA & MySQL   | 📝 React Hook Form            |
-| 🐬 MySQL Driver              | 🔥 React Hot Toast            |
-| 📄 Lombok & Validation       | 💅 Bootstrap 5 & Icons        |
-| 🧪 JUnit & Mockito           | 🌐 Context API & LocalStorage |
-| 📦 Maven                     | 🧪 Vitest & Testing Library   |
+* **Gestión de Inventario (CRUD):** Funcionalidad completa para crear, leer, actualizar y eliminar productos, asegurando la integridad de los datos de stock.
+* **API RESTful Segura:** Diseño de endpoints estandarizados con manejo de códigos de estado HTTP y validaciones de entrada.
+* **Autenticación y Seguridad:** Implementación de capas de seguridad para la gestión de usuarios y protección de rutas.
+* **Base de Datos Relacional:** Modelo E-R optimizado en MySQL para soportar relaciones complejas entre ventas, productos y usuarios.
+* **Arquitectura Escalable:** Estructura de código modular que facilita el mantenimiento y la adición de nuevas funcionalidades.
 
 ---
 
-## 📋 Prerrequisitos
+## 🛠️ Stack Tecnológico
 
-Antes de empezar, asegúrate de tener instalado el siguiente software:
-* **Java JDK 21** o superior.
-* **Node.js** (v18+ recomendado).
-* Un gestor de base de datos como **XAMPP** (MySQL) o **MySQL Workbench**.
-* Tu IDE de preferencia (VS Code, IntelliJ IDEA).
+### Backend (Servidor)
+* **Lenguaje:** Java 17
+* **Framework:** Spring Boot (Web, Data JPA, Security)
+* **Base de Datos:** MySQL
+* **Herramientas:** Maven, Postman (para pruebas de API)
+
+### Frontend (Cliente)
+* **Framework:** React.js
+* **Estilos:** CSS3 / Diseño Responsivo
+* **Conexión API:** Axios / Fetch
+* **Gestión de Estado:** React Hooks
 
 ---
 
-## 🚀 Instalación y Configuración
+## ⚙️ Instalación y Configuración Local
 
-### **1. Obtener el Código Fuente**
-Clona el repositorio y asegúrate de tener las dos carpetas principales: `backend` y `frontend`.
+Sigue estos pasos para correr el proyecto en tu máquina local.
 
-### **2. Configuración del Backend y Base de Datos**
-1.  **Base de Datos:** Abre tu gestor SQL y crea una base de datos llamada `basesita` (o ajusta el nombre en `application.properties`).
-2.  **Configuración:** En la carpeta `src/main/resources/application.properties`, verifica tus credenciales:
-    ```properties
-    spring.datasource.url=jdbc:mysql://localhost:3306/tienda_db
-    spring.datasource.username=root
-    spring.datasource.password=
+### Prerrequisitos
+* Java JDK 17+
+* Node.js & npm
+* MySQL Server
+
+### 1. Configuración del Backend
+
+1.  Clona el repositorio:
+    ```bash
+    git clone [https://github.com/havier14-2/FLASHU.git](https://github.com/havier14-2/FLASHU.git)
     ```
-3.  **Inicialización:** Al correr la aplicación por primera vez, Hibernate creará las tablas automáticamente. Puedes usar el script para poblar la base de datos.
+2.  Navega a la carpeta del servidor (ejemplo):
+    ```bash
+    cd FLASHU/backend
+    ```
+3.  Configura tu base de datos en `src/main/resources/application.properties`:
+    ```properties
+    spring.datasource.url=jdbc:mysql://localhost:3306/flashu_db
+    spring.datasource.username=TU_USUARIO
+    spring.datasource.password=TU_CONTRASEÑA
+    ```
+4.  Ejecuta la aplicación:
+    ```bash
+    ./mvnw spring-boot:run
+    ```
 
-### **3. Configuración del Frontend**
-1.  Abre una terminal en la carpeta del frontend (`FLASHU`).
+### 2. Configuración del Frontend
+
+1.  Navega a la carpeta del cliente:
+    ```bash
+    cd FLASHU/frontend
+    ```
 2.  Instala las dependencias:
     ```bash
     npm install
     ```
-
----
-
-## 🏁 Ejecución del Proyecto
-
-### **1. Iniciar el Backend**
-* Ejecuta la clase principal `BackEndTiendaApplication.java`.
-* El servidor iniciará en `http://localhost:8080`.
-* **Nota:** El backend cuenta con un "Seeder" que creará usuarios por defecto si la base de datos está vacía.
-
-### **2. Iniciar el Frontend**
-* En la terminal del frontend:
+3.  Inicia el servidor de desarrollo:
     ```bash
-    npm run dev
+    npm start
     ```
-* Accede a la tienda en `http://localhost:5173`.
+4.  Abre tu navegador en `http://localhost:3000`.
 
 ---
 
-## 🧪 Ejecución de Tests (FrontEnd)
+## 🧠 Arquitectura del Proyecto
 
-El proyecto cuenta con una suite de pruebas unitarias y de integración para componentes críticos (Login, Carrito, Navbar).
+El sistema utiliza un patrón **MVC (Modelo-Vista-Controlador)** en el backend expuesto a través de una API REST.
 
-### Para correr los tests en consola:
-```bash
-npm run test
+* **Controller Layer:** Maneja las peticiones HTTP y define los endpoints accesibles.
+* **Service Layer:** Contiene la lógica de negocio, cálculos y validaciones antes de persistir datos.
+* **Repository Layer:** Interactúa directamente con la base de datos mediante abstracciones de Hibernate/JPA.
 
-```
+---
 
-### 🎨 Para abrir la Interfaz Visual (UI) de Vitest:
-```bash
-    npm run dev:ui
+## 📬 Contacto
 
-```
+**Javier Albornoz Carrasco** - Full Stack Developer
+* [LinkedIn](www.linkedin.com/in/javier-albornoz-carrasco-a8357336b)
+* [Email](mailto:javierluciano14@gmail.com)
 
-### 🔑 Credenciales de Prueba
-El sistema viene pre-cargado con estos usuarios para facilitar la corrección y pruebas:
-| Rol | Email | Contraseña |
-| :--- | :--- | :--- |
-| **Administrador** | admin@flashu.cl | admin123 |
-| **Cliente** | cliente@flashu.cl | cliente123 |
-| **Profesora** | profevivi@flashu.cl | profe123 |
-
-### 📚 Documentación API
-El backend expone documentación Swagger para probar los 
-endpoints directamente. Una vez iniciado el servidor, 
-accede en:
-
-👉 http://localhost:8080/swagger-ui.html
-
-Tutorial Tienda: https://drive.google.com/drive/folders/1ACtEq4bYuRBXv_NOIL-UXyduUN2PTnH0?usp=drive_link
-
+---
+*Este proyecto es parte de mi portafolio profesional.*
